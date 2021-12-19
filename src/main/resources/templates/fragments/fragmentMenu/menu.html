@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+    <div class="sidebar" data-color="white" data-active-color="danger" th:fragment="menu(indice)">
+        <div class="logo">
+            <a th:href="@{/}" class="simple-text logo-mini">
+                <div class="logo-image-small">
+                    <img src="/img/logo.png">
+                </div>
+            </a>
+            <a th:href="@{/}" class="simple-text logo-normal">
+                HGuN
+            </a>
+        </div>
+        <div class="sidebar-wrapper" style="overflow-x: hidden;">
+            <ul class="nav">
+
+                <li th:replace="fragments/fragmentMenu/li :: li(${indice == 1}, '/administrador', 'nc-icon nc-bank', 'Dashboard')"></li>
+
+            </ul>
+        </div>
+    </div>
+
+</html>

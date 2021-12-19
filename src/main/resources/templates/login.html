@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+    <div th:replace="fragments/head :: head('MedSau - Login')"></div>
+
+    <body style="background-color: #f4f3ef">
+
+        <main style="margin-left: auto; margin-right: auto; margin-top: 170px; width: 400px;">
+            <div class="form-group">
+                <div class="card card-user" style="width: 400px; height: 600px;">
+                    <div class="card-body" style="padding: 40px;">
+
+                        <div class="text-center" style="margin-bottom: 30px">
+                            <h3 style="margin-bottom: 30px">EventLog</h3>
+
+                            <img th:src="@{/img/logo.png}" class="rounded mx-auto d-block" alt="Logo HGuN" style="width: 100px; height: 110px; margin-bottom: 30px">
+
+                            <h5>Faça seu login</h5>
+                        </div>
+
+                        <form method="post"  th:action="@{/login}" >
+
+                            <p style="color: red" th:if="${param.error}" >Credenciais inválidas!</p>
+
+                            <div class="row" style="margin-bottom: 15px">
+                                <div class="col-md-12 pl-1">
+                                    <div class="form-group">
+                                        <label>Usuário</label>
+                                        <input name="username" type="text" class="form-control"  required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 pl-1">
+                                    <div class="form-group">
+                                        <label>Senha</label>
+                                        <input name="password" type="password" class="form-control"  required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="ml-auto mr-auto">
+                                    <button type="submit" class="btn btn-primary mx-auto" style="width: 200px; height: 40px; font-size: 14px; margin-top: 20px" >Login</button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <div th:replace="fragments/imports :: imports"></div>
+    </body>
+</html>

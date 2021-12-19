@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+    <div th:replace="fragments/head :: head('MedSau - Home')"></div>
+
+    <body>
+
+        <header>
+            <nav class="navbar navbar-expand-lg" style=" background-color: #f8f9fa; margin-bottom: 40px; border-bottom: 2px solid #e3e3e3">
+                <div class="container-fluid">
+                    <div class="navbar-wrapper">
+
+                        <a class="navbar-brand" href="javascript:;" style="color: #2d2d2d">
+                            <img th:src="@{/img/logo.png}" width="30" height="30" class="d-inline-block align-top" style="margin-right: 15px" alt="Logo HGuN"/>
+                            Hospital de Guarnição de Natal
+                        </a>
+                    </div>
+                    <div class="collapse navbar-collapse justify-content-end" id="navigation" style="margin-right: 50px">
+
+                        <a th:href="@{/login}" class="btn btn-outline-primary my-2 my-sm-0" style="color: #51cbce">Entrar</a>
+
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <main class="container">
+            <div class="row" style="margin-top: 20%">
+                <div class="col-lg-7 px-6">
+                    <img th:src="@{/img/imagemTeleconsulta.png}"  alt="Imagem Teleconsulta HGuN"/>
+                </div>
+                <div class="col-lg-5">
+                    <div style="margin-top: 110px">
+                        <h2>
+                            Bem-vindo ao Centro de Telemedicina do Hospital de Guarnição de Natal
+                        </h2>
+                        <a class="btn btn-primary btn-lg btn-block" style="color: white">Teleatendimento</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <div th:replace="fragments/footer :: footer"></div>
+
+        <div th:replace="fragments/imports :: imports"></div>
+    </body>
+</html>
