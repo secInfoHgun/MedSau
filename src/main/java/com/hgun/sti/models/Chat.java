@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,7 +17,7 @@ import java.util.List;
 @Table(name="chats")
 public class Chat {
     @Id
-    @Column(name = "role_id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
@@ -30,5 +31,11 @@ public class Chat {
     @OneToOne
     public Paciente paciente;
 
-//    public ArrayList<String> mensagens;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "chat_mensagens",
+            joinColumns = @JoinColumn(name = "chat_id"),
+            inverseJoinColumns = @JoinColumn(name = "mensagens_id")
+    )
+    public Set<Mensagem> mensagens;
 }

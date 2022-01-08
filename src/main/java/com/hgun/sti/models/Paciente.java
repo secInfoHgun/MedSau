@@ -20,15 +20,13 @@ public class Paciente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
-    @NotBlank
+    public String nome;
+    public String idade;
+    public Character sexo;
+    public String telefone;
+    public String preccp;
     public String prontuario;
 
-    @NotBlank
-    public String nome;
-
-    @NotBlank
-    public String idade;
-
-    @NotBlank
-    public Character sexo;
+    @OneToOne
+    public TipoEspecialidade tipoEspecialidade;
 }
