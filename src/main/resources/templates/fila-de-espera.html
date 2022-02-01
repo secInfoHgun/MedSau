@@ -69,14 +69,26 @@
         </style>
 
     </head>
-    <div th:replace="fragments/head :: head('MedSau - Login')"></div>
 
     <body style="background-color: #F8F9FAFF">
+        <header>
+            <nav class="navbar navbar-expand-lg" style=" background-color: white; margin-bottom: 140px; border-bottom: 2px solid #e3e3e3">
+                <div class="container-fluid">
+                    <div class="navbar-wrapper">
+
+                        <a class="navbar-brand" href="javascript:;" style="color: #2d2d2d">
+                            <img th:src="@{/img/logo.png}" width="30" height="30" class="d-inline-block align-top" style="margin-right: 15px" alt="Logo HGuN"/>
+                            Hospital de Guarnição de Natal
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </header>
 
         <main class="container" id="filaDeEspera">
             <div class="row">
                 <div class="col col-lg-7">
-                    <img th:src="@{/images/imagemTeleconsulta.png}" alt="Teleatendimento" id="teleconsulta"/>
+                    <img th:src="@{/img/imagemTeleconsulta.png}" alt="Teleatendimento" id="teleconsulta"/>
                 </div>
                 <div class="col col-lg text-center">
                     <h3 class="text-primary">Sua vez está chegando</h3>
@@ -95,6 +107,8 @@
                 </div>
             </div>
         </main>
+
+        <div th:replace="fragments/footer :: footer"></div>
 
         <div th:replace="fragments/imports :: imports"></div>
     </body>

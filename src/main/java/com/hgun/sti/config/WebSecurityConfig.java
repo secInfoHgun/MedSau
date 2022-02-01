@@ -1,5 +1,7 @@
 package com.hgun.sti.config;
 
+import com.hgun.sti.repository.UsuarioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -23,6 +25,10 @@ import java.io.IOException;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig  extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    public UsuarioRepository usuarioRepository;
+
     @Bean
     public UserDetailsService userDetailsService() {
         return new UserDetailsServiceImpl();
@@ -67,7 +73,8 @@ public class WebSecurityConfig  extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/paciente").permitAll()
                 .antMatchers(HttpMethod.GET, "/filadeespera").permitAll()
                 .antMatchers(HttpMethod.POST, "/filadeespera").permitAll()
-                .antMatchers(HttpMethod.GET, "/administrador").permitAll()
+                .antMatchers(HttpMethod.GET, "/administrador/especialidade").permitAll()
+                .antMatchers(HttpMethod.POST, "/administrador/especialidade").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/login")
@@ -83,9 +90,12 @@ public class WebSecurityConfig  extends WebSecurityConfigurerAdapter {
         AuthenticationSuccessHandler atsh = new AuthenticationSuccessHandler() {
             @Override
             public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-                Cookie c = new Cookie("usuario", authentication.getName());
-                response.addCookie(c);
-                response.sendRedirect("/administrador");
+                var usuario = usuarioRepository.getUsuarioByLogin(authentication.getName());
+
+                Cookie cookie = new Cookie("userID", usuario.getId().toString());
+                response.addCookie(cookie);
+
+                response.sendRedirect("/administrador/especialidade");
             }
         };
 
