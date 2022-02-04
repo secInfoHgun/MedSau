@@ -3,10 +3,10 @@
 
     <div th:replace="fragments/head :: head('MedSau - Home')"></div>
 
-    <body>
+    <body style="background-color: #F8F9FAFF">
 
         <header>
-            <nav class="navbar navbar-expand-lg" style=" background-color: #f8f9fa; margin-bottom: 40px; border-bottom: 2px solid #e3e3e3">
+            <nav class="navbar navbar-expand-lg" style=" background-color: white; margin-bottom: 40px; border-bottom: 2px solid #e3e3e3">
                 <div class="container-fluid">
                     <div class="navbar-wrapper">
 
@@ -17,7 +17,7 @@
                     </div>
                     <div class="collapse navbar-collapse justify-content-end" id="navigation" style="margin-right: 50px">
 
-                        <a th:href="@{/login}" class="btn btn-outline-primary my-2 my-sm-0" style="color: #51cbce">Entrar</a>
+                        <a th:href="@{/administrador}" class="btn btn-outline-primary my-2 my-sm-0" style="color: #51cbce">Entrar</a>
 
                     </div>
                 </div>
@@ -34,13 +34,104 @@
                         <h2>
                             Bem-vindo ao Centro de Telemedicina do Hospital de Guarnição de Natal
                         </h2>
-                        <a class="btn btn-primary btn-lg btn-block" style="color: white">Teleatendimento</a>
+                        <a data-toggle="modal" data-target="#modalDadosDoPaciente" class="btn btn-primary btn-lg btn-block" style="color: white">Teleatendimento</a>
                     </div>
                 </div>
             </div>
         </main>
 
         <div th:replace="fragments/footer :: footer"></div>
+
+
+        <div id="modalDadosDoPaciente" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="margin-top: 100px">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Para continuar preencha os campos abaixo</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" style="width: 800px">
+                        <div class="container">
+                            <form method="post" th:action="@{/paciente}" th:object="${paciente}">
+                                <!-- Dados do paciente -->
+                                <div class="row" style="margin-bottom: 20px">
+                                    <div class="col-md-12 pl-1">
+                                        <div class="form-group">
+                                            <label style="color: #2a2b2d">Nome completo  <b style="color: red">*</b></label>
+                                            <input type="text" th:class="${'form-control'}"  required th:field="*{nome}" >
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-bottom: 20px">
+                                    <div class="col-md-8 pl-1">
+                                        <div class="form-group">
+                                            <label style="color: #2a2b2d">PRECCP  <b style="color: red">*</b></label>
+                                            <input type="text" th:class="${'form-control'}" th:field="*{preccp}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 pl-1">
+                                        <div class="form-group">
+                                            <label style="color: #2a2b2d">Idade  <b style="color: red">*</b></label>
+                                            <input type="text" th:class="${'form-control'}" required th:field="*{idade}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2 pl-1">
+                                        <div class="form-group">
+                                            <label style="color: #2a2b2d">Sexo  <b style="color: red">*</b></label>
+                                            <select th:class="${'form-control'}" required th:field="*{sexo}">
+                                                <option th:value="null"></option>
+                                                <option th:value="M">Masculino</option>
+                                                <option th:value="F">Feminino</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-bottom: 20px">
+                                    <div class="col-md-5 pl-1">
+                                        <div class="form-group">
+                                            <label style="color: #2a2b2d">Telefone para contato  <small>(incluindo o DDD)</small>  <b style="color: red">*</b></label>
+                                            <input type="text" th:class="${'form-control'}" data-mask="(00) 0 0000-0000" required th:field="*{telefone}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-7 pl-1">
+                                        <div class="form-group">
+                                            <label style="color: #2a2b2d">Prontuário  <b style="color: red">*</b></label>
+                                            <input type="text" th:class="${'form-control'}" required th:field="*{prontuario}">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-bottom: 20px">
+                                    <div class="col-md-12 pl-1">
+                                        <div class="form-group">
+                                            <label style="color: #2a2b2d">Especialidade médica  <b style="color: red">*</b></label>
+                                            <select th:class="${'form-control'}" required th:field="*{tipoEspecialidade.id}">
+                                                <option th:value="null"></option>
+                                                <option th:value="${tipo.id}" th:each="tipo : ${listaEspecialidades}" th:text="${tipo.nome + (tipo.descricao != '' ? ('  ('+tipo.descricao)+')' : '')}"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="ml-auto mr-auto">
+                                        <button type="submit" class="btn btn-primary mx-auto" style="width: 200px; height: 40px; font-size: 14px" >Continuar</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <div th:replace="fragments/imports :: imports"></div>
     </body>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" type="imagem/png" th:href="@{/img/logo.png}">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <title>MedSau - Fila de espera</title>
+        <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+
+        <link href="/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="/css/paper-dashboard.css?v=2.0.1" rel="stylesheet" />
+
+        <link href="/demo/demo.css" rel="stylesheet" />
+
+        <style>
+            main div div div div div div.progress{
+                width: 300px;
+                height: 300px;
+                background: none;
+                margin: 0 auto;
+                box-shadow: none;
+                position: relative;
+            }
+            main div div div div div div.progress:after{
+                content: "";
+                width: 100%;
+                height: 100%;
+                border-radius: 100%;
+                border: 2px solid #ffffff;
+                position: absolute;
+                top: 0;
+                left: 0;
+                border: 7px solid #9aa0ac;
+            }
+
+            main div div div div div div h1{
+                margin: auto;
+                font-size: 60px;
+            }
+
+            main div div div#indicadorNaFila{
+                margin-left: 98px;
+            }
+
+            main div div img#alertaIcon{
+                width: 25px;
+                margin-top: 30px;
+                margin-left: 50%;
+                margin-right: 50%;
+            }
+
+            main#filaDeEspera{
+                margin-top: 5%;
+            }
+
+            main div div h3 {
+                margin-bottom: 20px;
+            }
+
+            main div div p{
+                color: #9aa0ac;
+                margin-bottom: 20px;
+            }
+
+        </style>
+
+    </head>
+
+    <body style="background-color: #F8F9FAFF">
+        <header>
+            <nav class="navbar navbar-expand-lg" style=" background-color: white; margin-bottom: 140px; border-bottom: 2px solid #e3e3e3">
+                <div class="container-fluid">
+                    <div class="navbar-wrapper">
+
+                        <a class="navbar-brand" href="javascript:;" style="color: #2d2d2d">
+                            <img th:src="@{/img/logo.png}" width="30" height="30" class="d-inline-block align-top" style="margin-right: 15px" alt="Logo HGuN"/>
+                            Hospital de Guarnição de Natal
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <main class="container" id="filaDeEspera">
+            <div class="row">
+                <div class="col col-lg-7">
+                    <img th:src="@{/img/imagemTeleconsulta.png}" alt="Teleatendimento" id="teleconsulta"/>
+                </div>
+                <div class="col col-lg text-center">
+                    <h3 class="text-primary">Sua vez está chegando</h3>
+
+                    <p>Você está numa sala de espera virtual e será rapidamente atendido, aguarde. A númeração abaixo é sua posição na fila.</p>
+
+                    <div class="container" id="indicadorNaFila">
+                        <div class="row">
+                            <div class="col-md-3 col-sm-6">
+                                <div class="progress">
+                                    <h1 class="progress-value text-primary" id="numeroNaFila" th:text="${posicaoNaFila}"></h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <div th:replace="fragments/footer :: footer"></div>
+
+        <div th:replace="fragments/imports :: imports"></div>
+    </body>
+</html>
