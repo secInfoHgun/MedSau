@@ -8,6 +8,8 @@
         <title>MedSau - Fila de espera</title>
         <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
 
+        <meta http-equiv="refresh" content="10">
+
         <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
 
@@ -43,18 +45,7 @@
             }
 
             main div div div#indicadorNaFila{
-                margin-left: 98px;
-            }
-
-            main div div img#alertaIcon{
-                width: 25px;
-                margin-top: 30px;
-                margin-left: 50%;
-                margin-right: 50%;
-            }
-
-            main#filaDeEspera{
-                margin-top: 5%;
+                margin-left: 60px;
             }
 
             main div div h3 {
@@ -85,21 +76,21 @@
             </nav>
         </header>
 
-        <main class="container" id="filaDeEspera">
+        <main class="container">
             <div class="row">
-                <div class="col col-lg-7">
+                <div class="col col-lg-7 pl-4">
                     <img th:src="@{/img/imagemTeleconsulta.png}" alt="Teleatendimento" id="teleconsulta"/>
                 </div>
-                <div class="col col-lg text-center">
-                    <h3 class="text-primary">Sua vez está chegando</h3>
+                <div class="col col-lg  pl-4 text-center">
+                    <h3 class="text-primary align-self-center">Sua vez está chegando</h3>
 
-                    <p>Você está numa sala de espera virtual e será rapidamente atendido, aguarde. A númeração abaixo é sua posição na fila.</p>
+                    <p class="align-self-center">Você está numa sala de espera virtual e será rapidamente atendido, aguarde. A númeração abaixo é sua posição na fila.</p>
 
-                    <div class="container" id="indicadorNaFila">
-                        <div class="row">
-                            <div class="col-md-3 col-sm-6">
-                                <div class="progress">
-                                    <h1 class="progress-value text-primary" id="numeroNaFila" th:text="${posicaoNaFila}"></h1>
+                    <div class="container align-self-center" id="indicadorNaFila">
+                        <div class="row align-self-center">
+                            <div class="col-md-3 col-sm-6 align-self-center">
+                                <div class="progress align-self-center">
+                                    <h1 class="progress-value text-primary align-self-center" id="numeroNaFila" th:text="${posicaoNaFila}"></h1>
                                 </div>
                             </div>
                         </div>
@@ -113,29 +104,15 @@
         <div th:replace="fragments/imports :: imports"></div>
 
     <script>
-        function getPosicao(){
-            const baseurl = window.location.origin;
-            $.ajax({
-                url : baseurl+"/filadeespera/getposicao",
-                type : 'get',
-
-                success: function (response){
-                    var h1 = document.getElementsByTagName("h1")[0];
-                    console.log(response);
-                },
-
-                error: function (xhr, textStatus, error){
-                    console.log(xhr)
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Ooops...',
-                        text: 'Houve um problema interno e a especialidade não pôde ser desativada',
-                    })
-                }
+        var sistemaForaDoAr = [[${sistemaForaDoAr}]];
+        if(sistemaForaDoAr){
+            Swal.fire({
+                icon: 'error',
+                title: 'Ooops...',
+                text: 'O sistema de marcação de consulta está temporariamente fora do ar.',
+                showConfirmButton: false,
             })
         }
-
-        setInterval(getPosicao, 3000);
     </script>
     </body>
 </html>
