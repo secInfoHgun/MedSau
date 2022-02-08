@@ -17,11 +17,11 @@
 
 <!--                <li th:replace="fragments/fragmentMenu/li :: li(${indice == 1}, '/administrador', 'nc-icon nc-bank', 'Dashboard')"></li>-->
                 <li th:replace="fragments/fragmentMenu/li :: li(${indice == 2}, '/administrador/especialidades', 'nc-icon nc-bullet-list-67', 'Especialidades')"></li>
-                <li th:replace="fragments/fragmentMenu/li :: li(${indice == 3}, '/administrador/funcionarios', 'nc-icon nc-single-02', 'Funcionarios')"></li>
+<!--                <li th:replace="fragments/fragmentMenu/li :: li(${indice == 3}, '/administrador/funcionarios', 'nc-icon nc-single-02', 'Funcionarios')"></li>-->
 
             </ul>
 
-            <ul class="nav fixed-bottom" style="margin-bottom: 20px">
+            <ul class="nav fixed-bottom" style="margin-bottom: 20px; width: inherit;">
                 <li style="width: 10px" th:replace="fragments/fragmentMenu/li :: li(${indice == 0}, '/logout', 'fa fa-sign-out', 'Sair')"></li>
             </ul>
 

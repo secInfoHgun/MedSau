@@ -1,4 +1,4 @@
-package com.hgun.sti.controller;
+package com.hgun.sti.controller.paciente;
 
 import com.hgun.sti.models.Paciente;
 import com.hgun.sti.repository.TipoEspecialidadeRepository;

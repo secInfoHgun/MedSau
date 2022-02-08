@@ -1,4 +1,4 @@
-package com.hgun.sti.controller;
+package com.hgun.sti.controller.paciente;
 
 
 import org.springframework.stereotype.Controller;
@@ -15,5 +15,10 @@ public class FilaDeEsperaController {
         model.addAttribute("posicaoNaFila", 0);
 
         return "fila-de-espera.html";
+    }
+
+    @GetMapping("/getposicao")
+    public int getPosicaoNaFila(){
+        return 25;
     }
 }

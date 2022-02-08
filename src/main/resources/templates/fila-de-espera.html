@@ -111,5 +111,31 @@
         <div th:replace="fragments/footer :: footer"></div>
 
         <div th:replace="fragments/imports :: imports"></div>
+
+    <script>
+        function getPosicao(){
+            const baseurl = window.location.origin;
+            $.ajax({
+                url : baseurl+"/filadeespera/getposicao",
+                type : 'get',
+
+                success: function (response){
+                    var h1 = document.getElementsByTagName("h1")[0];
+                    console.log(response);
+                },
+
+                error: function (xhr, textStatus, error){
+                    console.log(xhr)
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ooops...',
+                        text: 'Houve um problema interno e a especialidade não pôde ser desativada',
+                    })
+                }
+            })
+        }
+
+        setInterval(getPosicao, 3000);
+    </script>
     </body>
 </html>

@@ -73,15 +73,20 @@ public class WebSecurityConfig  extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/paciente").permitAll()
                 .antMatchers(HttpMethod.GET, "/filadeespera").permitAll()
                 .antMatchers(HttpMethod.POST, "/filadeespera").permitAll()
-                .antMatchers(HttpMethod.GET, "/administrador/especialidade").permitAll()
-                .antMatchers(HttpMethod.POST, "/administrador/especialidade").permitAll()
+
+                .antMatchers(HttpMethod.GET,"/administrador").hasAnyAuthority("ADMINISTRADOR")
+                .antMatchers(HttpMethod.POST, "/administrador").hasAnyAuthority("ADMINISTRADOR")
+
+                .antMatchers(HttpMethod.POST,"/atendente" ).hasAnyAuthority("ATENDENTE")
+                .antMatchers(HttpMethod.GET, "/atendente").hasAnyAuthority("ATENDENTE")
+
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/login")
                 .successHandler(sucessoLogin())
                 .permitAll()
                 .and()
-                .logout().invalidateHttpSession(true).logoutSuccessUrl("/").deleteCookies("JSESSIONID", "usuario")
+                .logout().invalidateHttpSession(true).logoutSuccessUrl("/").deleteCookies("JSESSIONID", "userID")
                 .and()
                 .exceptionHandling().accessDeniedPage("/403");
     }
@@ -95,7 +100,15 @@ public class WebSecurityConfig  extends WebSecurityConfigurerAdapter {
                 Cookie cookie = new Cookie("userID", usuario.getId().toString());
                 response.addCookie(cookie);
 
-                response.sendRedirect("/administrador/especialidade");
+                var roles = usuario.getRoles();
+
+                for (var role : roles) {
+                    if(role.name.equals("ADMINISTRADOR")){
+                        response.sendRedirect("/administrador/especialidade");
+                    }else if(role.name.equals("ATENDENTE")){
+                        response.sendRedirect("/atendente");
+                    }
+                }
             }
         };
 
