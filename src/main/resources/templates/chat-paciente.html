@@ -1,10 +1,133 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="fragments/head :: head('MedSau - Dashboard')"></div>
+
+<body style="background-color: #F8F9FAFF; overflow: hidden;">
+
+<div class="wrapper ">
+
+    <header>
+        <nav class="navbar navbar-expand-lg" style=" background-color: white; border-bottom: 2px solid #e3e3e3">
+            <div class="container-fluid">
+                <div class="navbar-wrapper">
+
+                    <a class="navbar-brand" href="javascript:;" style="color: #2d2d2d">
+                        <img th:src="@{/img/logo.png}" width="30" height="30" class="d-inline-block align-top" style="margin-right: 15px" alt="Logo HGuN"/>
+                        Hospital de Guarnição de Natal
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="content">
+
+        <div class="row">
+            <div class="col-md-2 pl-1">
+
+            </div>
+            <div class="col-md-8 pl-1">
+
+                <nav class="navbar navbar-expand-lg" style="margin-bottom: 0px; border-bottom: 2px solid #E3E3E3;background-color: white">
+                    <div class="container-fluid">
+                        <div class="navbar-wrapper">
+                            <a class="navbar-brand" style="color: black">Chat de teleatendimento</a>
+                        </div>
+                    </div>
+                </nav>
+
+                <div class="card" style="border-radius: 3px; height: 750px; margin-top: 0px; overflow-x: hidden">
+                    <div class="card-body" >
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Cras justo odio</li>
+                            <li class="list-group-item">Dapibus ac facilisis in</li>
+                            <li class="list-group-item">Vestibulum at eros</li>
+                            <li class="list-group-item">Cras justo odio</li>
+                            <li class="list-group-item">Dapibus ac facilisis in</li>
+                            <li class="list-group-item">Vestibulum at eros</li>
+                            <li class="list-group-item">Cras justo odio</li>
+                            <li class="list-group-item">Dapibus ac facilisis in</li>
+                            <li class="list-group-item">Vestibulum at eros</li>
+                            <li class="list-group-item">Cras justo odio</li>
+                            <li class="list-group-item">Dapibus ac facilisis in</li>
+                            <li class="list-group-item">Vestibulum at eros</li>
+                            <li class="list-group-item">Cras justo odio</li>
+                            <li class="list-group-item">Dapibus ac facilisis in</li>
+                            <li class="list-group-item">Vestibulum at eros</li>
+                            <li class="list-group-item">Cras justo odio</li>
+                            <li class="list-group-item">Dapibus ac facilisis in</li>
+                            <li class="list-group-item">Vestibulum at eros</li>
+                            <li class="list-group-item">Cras justo odio</li>
+                            <li class="list-group-item">Dapibus ac facilisis in</li>
+                            <li class="list-group-item">Vestibulum at eros</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="input-group mb-3">
+                    <input style="height: 40px" type="text" class="form-control" placeholder="Escreva aqui" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" style="height: 40px; margin-top: 0px" type="button">Enviar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-2 pl-1">
+
+            </div>
+        </div>
+
+
+
+    </div>
+
+</div>
+
+<div th:replace="fragments/imports :: imports"></div>
+
+<script>
+    const baseurl = window.location.origin;
+
+    //pega todas as mensagens do chat
+
+    $.ajax({
+        type: "GET",
+        url : baseurl+"/getChat",
+        dataType: 'json',
+        success: function(data) {
+
+            console.log(data);
+        },
+
+        error: function (xhr, textStatus, error){
+            console.log(error);
+        }
+    });
+
+    /*
+    * inserindo uma mensagem simples no final da lista (o mesmo vale para os pacientes na fila de espera)
+    * let mensagens = document.getElementsByTagName("ul")[1];
+    *
+    * let novaMensagem = document.createElement("li");
+    *
+    * novaMensagem.className = "list-group-item";
+    *
+    * let content = document.createTextNode("TESTE 3");
+    *
+    * novaMensagem.appendChild(content);
+    *
+    * mensagens.appendChild(novaMensagem);
+    *
+    * mensagens.scrollIntoView(false);
+    *
+    * mensagens.childElementCount; (me retorna o total de mensagens que já estão em tela)
+    *
+    *
+    * O envio do imput deve ser por rest também
+    *
+    * */
+</script>
 
 </body>
 </html>

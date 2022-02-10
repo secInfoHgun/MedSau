@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AtendenteController {
     @GetMapping
     public String form(Model model){
-
         return "chat-atendente.html";
     }
 }

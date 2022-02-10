@@ -4,6 +4,8 @@ import com.hgun.sti.models.Paciente;
 import com.hgun.sti.repository.TipoEspecialidadeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,5 +24,13 @@ public class PacienteController {
         //inserir o paciente na fila de espera e salvar no no banco de dados
 
         return "redirect:/filadeespera";
+    }
+
+    @GetMapping("/chat")
+    public String getChat(Model model){
+
+        //inserir o paciente na fila de espera e salvar no no banco de dados
+
+        return "chat-paciente.html";
     }
 }
