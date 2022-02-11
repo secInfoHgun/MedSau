@@ -40,37 +40,42 @@
                 <div class="card" style="border-radius: 3px; height: 750px; margin-top: 0px; overflow-x: hidden">
                     <div class="card-body" >
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Cras justo odio</li>
-                            <li class="list-group-item">Dapibus ac facilisis in</li>
-                            <li class="list-group-item">Vestibulum at eros</li>
-                            <li class="list-group-item">Cras justo odio</li>
-                            <li class="list-group-item">Dapibus ac facilisis in</li>
-                            <li class="list-group-item">Vestibulum at eros</li>
-                            <li class="list-group-item">Cras justo odio</li>
-                            <li class="list-group-item">Dapibus ac facilisis in</li>
-                            <li class="list-group-item">Vestibulum at eros</li>
-                            <li class="list-group-item">Cras justo odio</li>
-                            <li class="list-group-item">Dapibus ac facilisis in</li>
-                            <li class="list-group-item">Vestibulum at eros</li>
-                            <li class="list-group-item">Cras justo odio</li>
-                            <li class="list-group-item">Dapibus ac facilisis in</li>
-                            <li class="list-group-item">Vestibulum at eros</li>
-                            <li class="list-group-item">Cras justo odio</li>
-                            <li class="list-group-item">Dapibus ac facilisis in</li>
-                            <li class="list-group-item">Vestibulum at eros</li>
-                            <li class="list-group-item">Cras justo odio</li>
-                            <li class="list-group-item">Dapibus ac facilisis in</li>
-                            <li class="list-group-item">Vestibulum at eros</li>
+
+                            <li class="list-group-item">
+                                <div style="margin-bottom: 6px">
+                                    <strong class="primary-font">Atendente</strong>
+                                    <strong class="pull-right text-muted">11:32</strong>
+                                </div>
+                                <p class="mb-0" style="margin-bottom: 3px">Bem-vindo ao sistema de teleatendimento do Hospital De Guarnição De Natal. </p>
+                                <p class="mb-0" style="margin-bottom: 3px">Já estamos dando prosseguimento ao seu atendimento </p>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div style="margin-bottom: 6px">
+                                    <strong class="primary-font">Claudia da silva</strong>
+                                    <strong class="pull-right text-muted">11:33</strong>
+                                </div>
+                                <p class="mb-0" style="margin-bottom: 3px">Nome: Claudia da silva sauro</p>
+                                <p class="mb-0" style="margin-bottom: 3px">Idade: 95 anos</p>
+                                <p class="mb-0" style="margin-bottom: 3px">Sexo: Feminino</p>
+                                <p class="mb-0" style="margin-bottom: 3px">Telefone: (84) 9 4002-8922</p>
+                                <p class="mb-0" style="margin-bottom: 3px">PRECCP: 211665224252</p>
+                                <p class="mb-0" style="margin-bottom: 3px">Prontuário: 11455213221551</p>
+                                <p class="mb-0" style="margin-bottom: 3px">Especialidade médica: Cardiologia</p>
+                            </li>
+
                         </ul>
                     </div>
                 </div>
 
-                <div class="input-group mb-3">
-                    <input style="height: 40px" type="text" class="form-control" placeholder="Escreva aqui" aria-describedby="basic-addon2">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" style="height: 40px; margin-top: 0px" type="button">Enviar</button>
+                <form id="messageForm">
+                    <div class="input-group mb-3">
+                        <input style="height: 40px" type="text" class="form-control" placeholder="Escreva aqui" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" style="height: 40px; margin-top: 0px" type="submit">Enviar</button>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
 
             <div class="col-md-2 pl-1">
@@ -88,7 +93,11 @@
 
 <script>
     const baseurl = window.location.origin;
-
+    // var messageForm = document.querySelector("form");
+    //
+    // messageForm.onsubmit = function(event) {
+    //     console.log(event);
+    // }
     //pega todas as mensagens do chat
 
     $.ajax({
@@ -125,6 +134,37 @@
     *
     *
     * O envio do imput deve ser por rest também
+    *
+    * let li = document.createElement("li");
+li.className = "list-group-item";
+
+let div = document.createElement("div");
+div.style = "margin-bottom: 6px";
+
+let strong = document.createElement("strong");
+strong.className = "primary-font";
+strong.appendChild(document.createTextNode("Nome do paciente"))
+
+div.appendChild(strong);
+
+strong = document.createElement("strong");
+strong.className = "pull-right text-muted";
+strong.appendChild(document.createTextNode("00:00"))
+
+div.appendChild(strong);
+
+li.appendChild(div);
+
+let p = document.createElement("p");
+p.className = "mb-0";
+p.style = "margin-bottom: 3px";
+p.appendChild(document.createTextNode("Mensagem que o paciente enviou para o funcionario que está atendendo ele"));
+
+li.appendChild(p);
+
+document.getElementsByTagName("ul")[0].appendChild(li);
+
+document.getElementsByTagName("ul")[0].scrollIntoView(false);
     *
     * */
 </script>
