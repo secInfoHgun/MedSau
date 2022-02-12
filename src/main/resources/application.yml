@@ -1,9 +1,9 @@
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/medsau
+    url: jdbc:postgresql://localhost:5432/medsau2
     username: postgres
-    password: P@sswd1941
+    password: postgres
   jpa:
     show-sql: false
     hibernate:

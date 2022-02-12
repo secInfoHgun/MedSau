@@ -134,5 +134,17 @@
 
 
         <div th:replace="fragments/imports :: imports"></div>
+
+        <script>
+            var sistemaForaDoAr = [[${sistemaForaDoAr}]];
+            if(sistemaForaDoAr){
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Sistema temporariamente fora do ar',
+                    text: 'Caso queira aguardar na fila de espera, basta apenas ignorar esta mensagem.',
+                    showConfirmButton: false,
+                })
+            }
+        </script>
     </body>
 </html>

@@ -1,5 +1,6 @@
 package com.hgun.sti.controller;
 
+import com.hgun.sti.components.SistemaForaDoArSingleton;
 import com.hgun.sti.models.Paciente;
 import com.hgun.sti.repository.TipoEspecialidadeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,12 @@ public class HomeController {
 
     @GetMapping
     public String initialPage(Model model){
+        var sistemaForaDoAr = SistemaForaDoArSingleton.getInstance();
         var listaTipoEspecialidade = tipoEspecialidadeRepository.listarEspecialidadesAtivas();
 
         model.addAttribute("paciente", new Paciente());
         model.addAttribute("listaEspecialidades",listaTipoEspecialidade );
+        model.addAttribute("sistemaForaDoAr", sistemaForaDoAr.sistemaForaDoAr);
         return "home.html";
     }
 

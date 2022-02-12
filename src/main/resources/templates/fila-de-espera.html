@@ -8,7 +8,7 @@
         <title>MedSau - Fila de espera</title>
         <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
 
-        <meta http-equiv="refresh" content="10">
+        <meta http-equiv="refresh" content="3">
 
         <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
@@ -107,9 +107,9 @@
         var sistemaForaDoAr = [[${sistemaForaDoAr}]];
         if(sistemaForaDoAr){
             Swal.fire({
-                icon: 'error',
-                title: 'Ooops...',
-                text: 'O sistema de marcação de consulta está temporariamente fora do ar.',
+                icon: 'warning',
+                title: 'Sistema temporariamente fora do ar',
+                text: 'Caso queira aguardar na fila de espera, basta apenas ignorar essa mensagem.',
                 showConfirmButton: false,
             })
         }
