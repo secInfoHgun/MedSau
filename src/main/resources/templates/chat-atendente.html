@@ -20,17 +20,7 @@
         </div>
         <div class="sidebar-wrapper" style="overflow-x: hidden;">
             <ul class="nav">
-                <li>
-                    <!-- <a th:href="@{${link}}"> -->
-                    <a style="margin-top: 0px">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#51cbce" class="bi bi-chat-square-text-fill" viewBox="0 0 16 16">
-                            <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2V2zm3.5 1a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 2.5a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 2.5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5z"/>
-                        </svg>
-                        &nbsp;
-                        Claudia da silva
-                        <hr style="margin-bottom: 0px"/>
-                    </a>
-                </li>
+
             </ul>
         </div>
     </div>
@@ -157,6 +147,7 @@
 
 <script>
     const baseurl = window.location.origin;
+    let fila = document.getElementsByTagName("ul")[0];
 
     function ativar(){
         $.ajax({
@@ -178,36 +169,98 @@
         })
     }
 
+    function creatElementeFilaDeEspera(paciente){
+        let li = document.createElement("li");
+        let a = document.createElement("a");
+        let svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+        let path = document.createElementNS('http://www.w3.org/2000/svg','path');
+        let hr = document.createElement("hr");
+
+        a.style = "margin-top: 0px";
+
+        svg.setAttribute('width',20);
+        svg.setAttribute('height',20);
+        svg.setAttribute('fill', '#51cbce');
+        svg.setAttribute('viewBox', '0 0 16 16');
+        svg.className = 'bi bi-chat-square-text-fill';
+        svg.style = "margin-right: 10px";
+
+        path.setAttribute(
+            'd',
+            'M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2V2zm3.5 1a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 2.5a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 2.5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5z'
+        );
+
+        svg.appendChild(path);
+
+        hr.style = "margin-bottom: 0px";
+
+        a.appendChild(svg);
+        a.appendChild(document.createTextNode(paciente.nome));
+        a.appendChild(hr);
+
+        li.appendChild(a);
+
+        fila.appendChild(li);
+    }
+
+    function getFilaDeEspera(){
+        $.ajax({
+            type: "GET",
+            url : baseurl+"/getFila",
+            dataType: 'json',
+            success: function(data) {
+
+                let elementosNaFila = fila.childElementCount;
+
+                if(data.length > 0){
+                    if(elementosNaFila == 0){
+                        let paciente = data[0].paciente;
+                        creatElementeFilaDeEspera(paciente);
+                    }else{
+                        elementosNaFila = fila.childElementCount;
+                        for(let i = elementosNaFila-1; i < data.length; i++){
+                            if(i > elementosNaFila){
+                                let paciente = data[i].paciente;
+                                creatElementeFilaDeEspera(paciente);
+                            }
+                        }
+                    }
+                }
+            },
+
+            error: function (xhr, textStatus, error){
+                console.log(error);
+            }
+        });
+    }
+
+    setInterval(getFilaDeEspera, 3000);
+
     //pega todas as pessoas na fila de espera
-    $.ajax({
-        type: "GET",
-        url : baseurl+"/getFila",
-        dataType: 'json',
-        success: function(data) {
 
-            console.log(data);
-        },
 
-        error: function (xhr, textStatus, error){
-            console.log(error);
-        }
-    });
-
-    $.ajax({
-        type: "GET",
-        url : baseurl+"/getChat",
-        dataType: 'json',
-        success: function(data) {
-
-            console.log(data);
-        },
-
-        error: function (xhr, textStatus, error){
-            console.log(error);
-        }
-    });
+    // $.ajax({
+    //     type: "GET",
+    //     url : baseurl+"/getChat",
+    //     dataType: 'json',
+    //     success: function(data) {
+    //
+    //         console.log(data);
+    //     },
+    //
+    //     error: function (xhr, textStatus, error){
+    //         console.log(error);
+    //     }
+    // });
 
 /*
+*
+* var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+*
+*
+*
+*
+*
 * inserindo uma mensagem simples no final da lista (o mesmo vale para os pacientes na fila de espera)
 * let mensagens = document.getElementsByTagName("ul")[1];
 *
