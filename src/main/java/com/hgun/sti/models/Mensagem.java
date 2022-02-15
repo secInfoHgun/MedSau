@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,5 +19,6 @@ public class Mensagem {
     public Long id;
 
     public String remetente;
+    public Date data;
     public String conteudo;
 }

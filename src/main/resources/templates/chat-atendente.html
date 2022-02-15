@@ -19,7 +19,7 @@
             </a>
         </div>
         <div class="sidebar-wrapper" style="overflow-x: hidden;">
-            <ul class="nav">
+            <ul class="nav" id="filaDeEspera">
 
             </ul>
         </div>
@@ -87,7 +87,7 @@
                             </div>
                             <div class="collapse navbar-collapse justify-content-end">
 
-                                <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="red" class="bi bi-x-square-fill" viewBox="0 0 16 16">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="red" class="bi bi-x-square-fill" viewBox="0 0 16 16">
                                     <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm3.354 4.646L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 1 1 .708-.708z"/>
                                 </svg>
                             </div>
@@ -97,27 +97,7 @@
                     <div class="card" style="border-radius: 3px; height: 750px; margin-top: 0px; overflow-x: hidden">
                         <div class="card-body" >
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item">Cras justo odio</li>
-                                <li class="list-group-item">Dapibus ac facilisis in</li>
-                                <li class="list-group-item">Vestibulum at eros</li>
-                                <li class="list-group-item">Cras justo odio</li>
-                                <li class="list-group-item">Dapibus ac facilisis in</li>
-                                <li class="list-group-item">Vestibulum at eros</li>
-                                <li class="list-group-item">Cras justo odio</li>
-                                <li class="list-group-item">Dapibus ac facilisis in</li>
-                                <li class="list-group-item">Vestibulum at eros</li>
-                                <li class="list-group-item">Cras justo odio</li>
-                                <li class="list-group-item">Dapibus ac facilisis in</li>
-                                <li class="list-group-item">Vestibulum at eros</li>
-                                <li class="list-group-item">Cras justo odio</li>
-                                <li class="list-group-item">Dapibus ac facilisis in</li>
-                                <li class="list-group-item">Vestibulum at eros</li>
-                                <li class="list-group-item">Cras justo odio</li>
-                                <li class="list-group-item">Dapibus ac facilisis in</li>
-                                <li class="list-group-item">Vestibulum at eros</li>
-                                <li class="list-group-item">Cras justo odio</li>
-                                <li class="list-group-item">Dapibus ac facilisis in</li>
-                                <li class="list-group-item">Vestibulum at eros</li>
+
                             </ul>
                         </div>
                     </div>
@@ -147,7 +127,6 @@
 
 <script>
     const baseurl = window.location.origin;
-    let fila = document.getElementsByTagName("ul")[0];
 
     function ativar(){
         $.ajax({
@@ -200,31 +179,20 @@
 
         li.appendChild(a);
 
-        fila.appendChild(li);
+        return li;
     }
 
     function getFilaDeEspera(){
+        let filaUl = document.getElementsByTagName("ul")[0];
+        let filaArray = Array.from(filaUl.children);
+
         $.ajax({
             type: "GET",
             url : baseurl+"/getFila",
             dataType: 'json',
             success: function(data) {
-
-                let elementosNaFila = fila.childElementCount;
-
-                if(data.length > 0){
-                    if(elementosNaFila == 0){
-                        let paciente = data[0].paciente;
-                        creatElementeFilaDeEspera(paciente);
-                    }else{
-                        elementosNaFila = fila.childElementCount;
-                        for(let i = elementosNaFila-1; i < data.length; i++){
-                            if(i > elementosNaFila){
-                                let paciente = data[i].paciente;
-                                creatElementeFilaDeEspera(paciente);
-                            }
-                        }
-                    }
+                for(let i = filaArray.length; i < data.length; ++i){
+                    filaUl.appendChild(creatElementeFilaDeEspera(data[i].paciente));
                 }
             },
 
@@ -236,52 +204,59 @@
 
     setInterval(getFilaDeEspera, 3000);
 
-    //pega todas as pessoas na fila de espera
+    function createElementeChat(mensagem){
+        let li = document.createElement("li");
+        let div = document.createElement("div");
+        let strong = document.createElement("strong");
+        let p = document.createElement("p");
 
+        li.className = "list-group-item";
 
-    // $.ajax({
-    //     type: "GET",
-    //     url : baseurl+"/getChat",
-    //     dataType: 'json',
-    //     success: function(data) {
-    //
-    //         console.log(data);
-    //     },
-    //
-    //     error: function (xhr, textStatus, error){
-    //         console.log(error);
-    //     }
-    // });
+        div.style = "margin-bottom: 6px";
 
-/*
-*
-* var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-*
-*
-*
-*
-*
-* inserindo uma mensagem simples no final da lista (o mesmo vale para os pacientes na fila de espera)
-* let mensagens = document.getElementsByTagName("ul")[1];
-*
-* let novaMensagem = document.createElement("li");
-*
-* novaMensagem.className = "list-group-item";
-*
-* let content = document.createTextNode("TESTE 3");
-*
-* novaMensagem.appendChild(content);
-*
-* mensagens.appendChild(novaMensagem);
-*
-* mensagens.scrollIntoView(false);
-*
-* mensagens.childElementCount; (me retorna o total de mensagens que já estão em tela)
-*
-*
-* O envio do imput deve ser por rest também
-*
-* */
+        strong.className = "primary-font";
+        strong.appendChild(document.createTextNode(mensagem.remetente))
+
+        div.appendChild(strong);
+
+        strong = document.createElement("strong");
+        strong.className = "pull-right text-muted";
+        strong.appendChild(document.createTextNode(mensagem.data))
+
+        div.appendChild(strong);
+
+        li.appendChild(div);
+
+        p.className = "mb-0";
+        p.style = "margin-bottom: 3px";
+        p.appendChild(document.createTextNode(mensagem.conteudo));
+
+        li.appendChild(p);
+    }
+
+    function getChat(){
+        let chatUl = document.getElementsByTagName("ul")[1];
+        let chatArray = Array.from(chatUl.children);
+
+        $.ajax({
+            type: "GET",
+            url : baseurl+"/getChat",
+            dataType: 'json',
+            success: function(data) {
+                for(let i = chatArray.length; i < data.length; ++i){
+                    chatUl.appendChild(createElementeChat(data[i]));
+                    chatUl.scrollIntoView(false);
+                }
+            },
+
+            error: function (xhr, textStatus, error){
+                console.log(error);
+            }
+        });
+    }
+
+    setInterval(getChat, 1000);
+
 </script>
 
 </body>
