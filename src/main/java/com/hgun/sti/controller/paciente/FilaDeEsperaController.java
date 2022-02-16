@@ -1,7 +1,7 @@
 package com.hgun.sti.controller.paciente;
 
-import com.hgun.sti.components.FilaDeEsperaSingleton;
-import com.hgun.sti.components.SistemaForaDoArSingleton;
+import com.hgun.sti.components.singletons.FilaDeEsperaSingleton;
+import com.hgun.sti.components.singletons.SistemaForaDoArSingleton;
 import com.hgun.sti.models.Paciente;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

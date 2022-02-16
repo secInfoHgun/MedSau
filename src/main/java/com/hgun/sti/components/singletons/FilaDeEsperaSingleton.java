@@ -1,4 +1,4 @@
-package com.hgun.sti.components;
+package com.hgun.sti.components.singletons;
 
 import com.hgun.sti.models.FilaDeEspera;
 

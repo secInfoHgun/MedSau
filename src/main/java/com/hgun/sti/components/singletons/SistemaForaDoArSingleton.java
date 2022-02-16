@@ -1,4 +1,4 @@
-package com.hgun.sti.components;
+package com.hgun.sti.components.singletons;
 
 public class SistemaForaDoArSingleton {
     private static SistemaForaDoArSingleton sistemaForaDoArSingleton;

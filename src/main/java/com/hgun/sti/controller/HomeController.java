@@ -1,6 +1,6 @@
 package com.hgun.sti.controller;
 
-import com.hgun.sti.components.SistemaForaDoArSingleton;
+import com.hgun.sti.components.singletons.SistemaForaDoArSingleton;
 import com.hgun.sti.models.Paciente;
 import com.hgun.sti.repository.TipoEspecialidadeRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -19,7 +19,7 @@
             </a>
         </div>
         <div class="sidebar-wrapper" style="overflow-x: hidden;">
-            <ul class="nav" id="filaDeEspera">
+            <ul class="nav">
 
             </ul>
         </div>
@@ -102,12 +102,14 @@
                         </div>
                     </div>
 
-                    <div class="input-group mb-3">
-                        <input style="height: 40px" type="text" class="form-control" placeholder="Escreva aqui" aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" style="height: 40px; margin-top: 0px" type="button">Enviar</button>
+                    <form id="formMensagem"  method="post">
+                        <div class="input-group mb-3">
+                            <input style="height: 40px" type="text" class="form-control" placeholder="Escreva aqui" name="conteudo" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary my-2 my-sm-0" style="height: 40px; margin-top: 0px" type="submit">Enviar</button>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
 
                 <div class="col-md-1 pl-1">
@@ -221,7 +223,7 @@
 
         strong = document.createElement("strong");
         strong.className = "pull-right text-muted";
-        strong.appendChild(document.createTextNode(mensagem.data))
+        strong.appendChild(document.createTextNode(mensagem.hora))
 
         div.appendChild(strong);
 
@@ -232,6 +234,8 @@
         p.appendChild(document.createTextNode(mensagem.conteudo));
 
         li.appendChild(p);
+
+        return li;
     }
 
     function getChat(){
@@ -243,8 +247,9 @@
             url : baseurl+"/getChat",
             dataType: 'json',
             success: function(data) {
-                for(let i = chatArray.length; i < data.length; ++i){
-                    chatUl.appendChild(createElementeChat(data[i]));
+                for(let i = chatArray.length; i < data.length; i++){
+                    var li = createElementeChat(data[i]);
+                    chatUl.appendChild(li);
                     chatUl.scrollIntoView(false);
                 }
             },
@@ -255,7 +260,26 @@
         });
     }
 
-    setInterval(getChat, 1000);
+    setInterval(getChat, 50);
+
+    $('#formMensagem').submit(function(e) {
+        e.preventDefault();
+        let conteudo = $('input[name="mensagem"]').val();
+        let isPaciente = false;
+
+        $.ajax({
+            type: 'POST',
+            url: baseurl+"/sendMensagem",
+            data: {conteudo: conteudo, isPaciente: isPaciente},
+            success: function(response) {
+                console.log(response);
+            },
+            error: function(xhr, status, error) {
+                console.log(xhr.responseText);
+            }
+        });
+        return false;
+    });
 
 </script>
 
