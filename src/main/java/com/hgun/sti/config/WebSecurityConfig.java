@@ -81,17 +81,18 @@ public class WebSecurityConfig  extends WebSecurityConfigurerAdapter {
 
                 .antMatchers(HttpMethod.GET, "/getChat").permitAll()
                 .antMatchers(HttpMethod.GET, "/getFila").permitAll()
-                .antMatchers(HttpMethod.GET, "/postMessage/{message}/{isPaciente}").permitAll()
-
+                .antMatchers(HttpMethod.GET, "/postMessage").permitAll()
 
                 .antMatchers(HttpMethod.GET, "/filadeespera").permitAll()
                 .antMatchers(HttpMethod.POST, "/filadeespera").permitAll()
 
-                .antMatchers(HttpMethod.GET,"/administrador").hasAnyAuthority("ADMINISTRADOR")
-                .antMatchers(HttpMethod.POST, "/administrador").hasAnyAuthority("ADMINISTRADOR")
+                .antMatchers(HttpMethod.GET,"/administrador/especialidade").hasAnyAuthority("ADMINISTRADOR")
+                .antMatchers(HttpMethod.POST, "/administrador/especialidade").hasAnyAuthority("ADMINISTRADOR")
 
                 .antMatchers(HttpMethod.POST,"/atendente" ).hasAnyAuthority("ATENDENTE")
                 .antMatchers(HttpMethod.GET, "/atendente").hasAnyAuthority("ATENDENTE")
+
+                .antMatchers(HttpMethod.GET,"/entrar" ).hasAnyAuthority("ATENDENTE", "ADMINISTRADOR")
 
                 .anyRequest().authenticated()
                 .and()

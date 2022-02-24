@@ -36,7 +36,7 @@ public class AtendenteController {
     }
 
     @RequestMapping(value = "/getPaciente", method = RequestMethod.GET)
-    public String getPacienteDaFilaDeEspera(HttpServletRequest request, Model model, @ModelAttribute Mensagem mensagem, RedirectAttributes redirectAttributes){
+    public String getPacienteDaFilaDeEspera(HttpServletRequest request, @ModelAttribute Mensagem mensagem, RedirectAttributes redirectAttributes){
         var chat = ChatSingleton.getInstance();
         var filaDeEspera = FilaDeEsperaSingleton.getInstance();
 
@@ -59,7 +59,10 @@ public class AtendenteController {
         var chat = ChatSingleton.getInstance();
         var filaDeEspera = FilaDeEsperaSingleton.getInstance();
 
-        filaDeEspera.filaDeEspera.remove(0);
+        if(filaDeEspera.filaDeEspera.size() != 0){
+            filaDeEspera.filaDeEspera.remove(0);
+        }
+
         chat.clearChat();
 
         //salvar todos os dados no sistema

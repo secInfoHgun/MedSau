@@ -134,19 +134,20 @@
     $('#formMensagem').submit(function(e) {
         e.preventDefault();
 
-        let message = document.getElementById("message");
-        let isPaciente = true;
+        let mensagem = document.getElementById("message");
 
         $.ajax({
             type: 'GET',
-            url: baseurl+"/postMessage/"+message.value+"/"+isPaciente,
+            url: baseurl+"/postMessage",
+            headers: {message: mensagem.value, isPaciente: true},
             success: function(response) {
-                message.value = "";
+                mensagem.value = "";
             },
             error: function(xhr, status, error) {
                 console.log(xhr.responseText);
             }
         });
+
         return false;
     });
 </script>

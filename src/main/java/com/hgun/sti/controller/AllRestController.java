@@ -8,6 +8,9 @@ import com.hgun.sti.models.Mensagem;
 import com.hgun.sti.models.Paciente;
 import com.hgun.sti.repository.TipoEspecialidadeRepository;
 import com.hgun.sti.repository.UsuarioRepository;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,10 +41,12 @@ public class AllRestController {
         return chat.mensagems;
     }
 
-    @RequestMapping(value = "/postMessage/{message}/{isPaciente}",  method = RequestMethod.GET)
-    public boolean sendMensagem(@PathVariable(name = "message") String message, @PathVariable(name = "isPaciente") boolean isPaciente, HttpServletRequest request) {
+    @RequestMapping(value = "/postMessage",  method = RequestMethod.GET)
+    public boolean sendMensagem(HttpServletRequest request) {
 
         var chat = ChatSingleton.getInstance();
+        var isPaciente = request.getHeader("ispaciente").equals("true");
+        var message = request.getHeader("message");
 
         if(isPaciente){
             HttpSession session = request.getSession();
@@ -61,6 +66,7 @@ public class AllRestController {
         }
         return true;
     }
+
 
     @RequestMapping(value = "/setSistemaForaDoAr", method = RequestMethod.GET)
     public void setSistemaAtivo() {
