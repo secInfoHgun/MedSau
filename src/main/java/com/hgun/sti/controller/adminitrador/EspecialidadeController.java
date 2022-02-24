@@ -1,6 +1,5 @@
 package com.hgun.sti.controller.adminitrador;
 
-import com.hgun.sti.models.Paciente;
 import com.hgun.sti.models.TipoEspecialidade;
 import com.hgun.sti.repository.TipoEspecialidadeRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -55,7 +55,6 @@
                     <div class="modal-body" style="width: 800px">
                         <div class="container">
                             <form method="post" th:action="@{/paciente}" th:object="${paciente}">
-                                <!-- Dados do paciente -->
                                 <div class="row" style="margin-bottom: 20px">
                                     <div class="col-md-12 pl-1">
                                         <div class="form-group">
@@ -144,6 +143,26 @@
                     text: 'Caso queira aguardar na fila de espera, basta apenas ignorar esta mensagem.',
                     showConfirmButton: false,
                 })
+            }
+
+            var finalizouChat = [[${finalizouChat}]];
+            if(finalizouChat){
+                let timerInterval
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Atendimento Finalizado',
+                    text: '\nObrigado por utilizar o sistema de teleatendimento do Hospital de Guarnição de Natal',
+                    timer: 2000,
+                    showConfirmButton: false,
+                    didOpen: () => {
+                        timerInterval = setInterval(() => {
+                        }, 2000)
+                    },
+                    willClose: () => {
+                        clearInterval(timerInterval)
+                    }
+                })
+
             }
         </script>
     </body>

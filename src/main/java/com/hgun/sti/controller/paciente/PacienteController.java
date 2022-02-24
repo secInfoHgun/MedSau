@@ -3,12 +3,10 @@ package com.hgun.sti.controller.paciente;
 import com.hgun.sti.components.singletons.ChatSingleton;
 import com.hgun.sti.components.singletons.FilaDeEsperaSingleton;
 import com.hgun.sti.models.FilaDeEspera;
-import com.hgun.sti.models.Mensagem;
 import com.hgun.sti.models.Paciente;
-import com.hgun.sti.repository.UsuarioRepository;
+import com.hgun.sti.repository.TipoEspecialidadeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,48 +14,40 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.util.Date;
-
-import static com.hgun.sti.components.GetCookie.getCookie;
 
 @Controller
 @RequestMapping("/paciente")
 public class PacienteController {
 
     @Autowired
-    public UsuarioRepository usuarioRepository;
+    public TipoEspecialidadeRepository tipoEspecialidadeRepository;
 
     @PostMapping
-    public String inserirPacienteNaFilaDeEspera(@ModelAttribute Paciente paciente, HttpServletRequest request, RedirectAttributes redirectAttributes){
-
+    public String inserirPacienteNaFilaDeEspera(@ModelAttribute Paciente paciente, HttpServletRequest request){
+        var session = request.getSession();
         var fila = FilaDeEsperaSingleton.getInstance();
-        fila.filaDeEspera.add(new FilaDeEspera(paciente, false));
 
-        HttpSession session = request.getSession();
+        fila.filaDeEspera.add(new FilaDeEspera(paciente, false));
         session.setAttribute("paciente", paciente);
-//        session.setAttribute("primeiraMensagemPaciente", true);
 
         return "redirect:/filadeespera";
     }
 
     @GetMapping("/chat")
-    public String getChat(Model model){
-
-        model.addAttribute("mensagem", new Mensagem());
-
-        return "chat-paciente.html";
-    }
-
-    @PostMapping("/sendMessage")
-    public String getMensagem(@ModelAttribute Mensagem mensagem, HttpServletRequest request){
-
-        HttpSession session = request.getSession();
-        var paciente = (Paciente)session.getAttribute("paciente");
+    public String getChat(HttpServletRequest request){
 
         var chat = ChatSingleton.getInstance();
-        chat.setMensagemPaciente(paciente, mensagem, true);
+        var session = request.getSession();
+        var paciente = (Paciente)session.getAttribute("paciente");
 
-        return "redirect:/atendente";
+        if(paciente == null){
+            return "redirect:/";
+        }
+
+        var tipoEspecialidade = tipoEspecialidadeRepository.findById(paciente.getTipoEspecialidade().getId()).get();
+
+        chat.setMensagemPaciente(paciente, "", false, tipoEspecialidade);
+
+        return "chat-paciente.html";
     }
 }

@@ -70,11 +70,19 @@ public class WebSecurityConfig  extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/").permitAll()
                 .antMatchers(HttpMethod.POST, "/").permitAll()
 
+                .antMatchers(HttpMethod.GET, "/finalizou").permitAll()
+                .antMatchers(HttpMethod.POST, "/finalizou").permitAll()
+
                 .antMatchers(HttpMethod.GET, "/paciente").permitAll()
                 .antMatchers(HttpMethod.POST, "/paciente").permitAll()
 
                 .antMatchers(HttpMethod.GET, "/paciente/chat").permitAll()
                 .antMatchers(HttpMethod.POST, "/paciente/chat").permitAll()
+
+                .antMatchers(HttpMethod.GET, "/getChat").permitAll()
+                .antMatchers(HttpMethod.GET, "/getFila").permitAll()
+                .antMatchers(HttpMethod.GET, "/postMessage/{message}/{isPaciente}").permitAll()
+
 
                 .antMatchers(HttpMethod.GET, "/filadeespera").permitAll()
                 .antMatchers(HttpMethod.POST, "/filadeespera").permitAll()

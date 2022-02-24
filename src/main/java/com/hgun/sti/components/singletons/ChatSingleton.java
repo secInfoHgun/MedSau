@@ -1,24 +1,11 @@
 package com.hgun.sti.components.singletons;
 
-import com.hgun.sti.models.Chat;
-import com.hgun.sti.models.Mensagem;
-import com.hgun.sti.models.Paciente;
-import com.hgun.sti.models.Usuario;
-import com.hgun.sti.repository.TipoEspecialidadeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.hgun.sti.models.*;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-
-import static com.hgun.sti.components.GetCookie.getCookie;
 
 public class ChatSingleton {
-
-    @Autowired
-    private TipoEspecialidadeRepository tipoEspecialidadeRepository;
 
     private static ChatSingleton chatSingleton;
     public ArrayList<Mensagem> mensagems;
@@ -63,9 +50,11 @@ public class ChatSingleton {
        return  horaFormatada;
     }
 
-    public void setMensagemFuncionario(Usuario usuario,Mensagem mensagem, Boolean veioDoForm){
+    public void setMensagemFuncionario(Usuario usuario,String conteudo, Boolean veioDoForm){
 
+        var mensagem = new Mensagem();
         mensagem.setRemetente(usuario.getLogin());
+        mensagem.setConteudo(conteudo);
         mensagem.setHora(getHoraAtual());
 
         if(!veioDoForm){
@@ -75,11 +64,12 @@ public class ChatSingleton {
         this.mensagems.add(mensagem);
     }
 
-    public void setMensagemPaciente(Paciente paciente, Mensagem mensagem, Boolean veioDoForm){
+    public void setMensagemPaciente(Paciente paciente, String conteudo, Boolean veioDoForm, TipoEspecialidade tipoEspecialidade){
 
-        var tipoEspecialidade = tipoEspecialidadeRepository.findById(paciente.getTipoEspecialidade().getId()).get();
+        var mensagem = new Mensagem();
 
         mensagem.setRemetente(paciente.getNome());
+        mensagem.setConteudo(conteudo);
         mensagem.setHora(getHoraAtual());
 
         if(!veioDoForm){

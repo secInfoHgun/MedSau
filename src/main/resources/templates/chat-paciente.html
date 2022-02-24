@@ -41,38 +41,15 @@
                     <div class="card-body" >
                         <ul class="list-group list-group-flush">
 
-                            <li class="list-group-item">
-                                <div style="margin-bottom: 6px">
-                                    <strong class="primary-font">Atendente</strong>
-                                    <strong class="pull-right text-muted">11:32</strong>
-                                </div>
-                                <p class="mb-0" style="margin-bottom: 3px">Bem-vindo ao sistema de teleatendimento do Hospital De Guarnição De Natal. </p>
-                                <p class="mb-0" style="margin-bottom: 3px">Já estamos dando continuidade ao seu atendimento</p>
-                            </li>
-
-                            <li class="list-group-item">
-                                <div style="margin-bottom: 6px">
-                                    <strong class="primary-font">Claudia da silva</strong>
-                                    <strong class="pull-right text-muted">11:33</strong>
-                                </div>
-                                <p class="mb-0" style="margin-bottom: 3px">Nome: Claudia da silva sauro</p>
-                                <p class="mb-0" style="margin-bottom: 3px">Idade: 95 anos</p>
-                                <p class="mb-0" style="margin-bottom: 3px">Sexo: Feminino</p>
-                                <p class="mb-0" style="margin-bottom: 3px">Telefone: (84) 9 4002-8922</p>
-                                <p class="mb-0" style="margin-bottom: 3px">PRECCP: 211665224252</p>
-                                <p class="mb-0" style="margin-bottom: 3px">Prontuário: 11455213221551</p>
-                                <p class="mb-0" style="margin-bottom: 3px">Especialidade médica: Cardiologia</p>
-                            </li>
-
                         </ul>
                     </div>
                 </div>
 
-                <form id="messageForm">
+                <form id="formMensagem"  method="post">
                     <div class="input-group mb-3">
-                        <input style="height: 40px" type="text" class="form-control" placeholder="Escreva aqui" aria-describedby="basic-addon2">
+                        <input style="height: 40px" type="text" autocomplete="off" class="form-control" placeholder="Escreva aqui" id="message" name="message" aria-describedby="basic-addon2">
                         <div class="input-group-append">
-                            <button class="btn btn-primary" style="height: 40px; margin-top: 0px" type="submit">Enviar</button>
+                            <button class="btn btn-primary my-2 my-sm-0" style="height: 40px; margin-top: 0px" type="submit">Enviar</button>
                         </div>
                     </div>
                 </form>
@@ -93,49 +70,85 @@
 
 <script>
     const baseurl = window.location.origin;
-    // var messageForm = document.querySelector("form");
-    //
-    // messageForm.onsubmit = function(event) {
-    //     console.log(event);
-    // }
-    //pega todas as mensagens do chat
 
-    $.ajax({
-        type: "GET",
-        url : baseurl+"/getChat",
-        dataType: 'json',
-        success: function(data) {
+    function createElementeChat(mensagem){
+        let li = document.createElement("li");
+        let div = document.createElement("div");
+        let strong = document.createElement("strong");
+        let p = document.createElement("p");
 
-            console.log(data);
-        },
+        li.className = "list-group-item";
 
-        error: function (xhr, textStatus, error){
-            console.log(error);
-        }
+        div.style = "margin-bottom: 6px";
+
+        strong.className = "primary-font";
+        strong.appendChild(document.createTextNode(mensagem.remetente))
+
+        div.appendChild(strong);
+
+        strong = document.createElement("strong");
+        strong.className = "pull-right text-muted";
+        strong.appendChild(document.createTextNode(mensagem.hora))
+
+        div.appendChild(strong);
+
+        li.appendChild(div);
+
+        p.className = "mb-0";
+        p.style = "margin-bottom: 3px";
+        p.appendChild(document.createTextNode(mensagem.conteudo));
+
+        li.appendChild(p);
+
+        return li;
+    }
+
+    function getChat(){
+        let chatUl = document.getElementsByTagName("ul")[0];
+        let chatArray = Array.from(chatUl.children);
+
+        $.ajax({
+            type: "GET",
+            url : baseurl+"/getChat",
+            dataType: 'json',
+            success: function(data) {
+                if(data.length == 0){
+                    window.location.href = baseurl+"/finalizou";
+                }
+
+                for(let i = chatArray.length; i < data.length; i++){
+                    var li = createElementeChat(data[i]);
+                    chatUl.appendChild(li);
+                    chatUl.scrollIntoView(false);
+                }
+            },
+
+            error: function (xhr, textStatus, error){
+                console.log(error);
+            }
+        });
+    }
+
+    setInterval(getChat, 50);
+
+    $('#formMensagem').submit(function(e) {
+        e.preventDefault();
+
+        let message = document.getElementById("message");
+        let isPaciente = true;
+
+        $.ajax({
+            type: 'GET',
+            url: baseurl+"/postMessage/"+message.value+"/"+isPaciente,
+            success: function(response) {
+                message.value = "";
+            },
+            error: function(xhr, status, error) {
+                console.log(xhr.responseText);
+            }
+        });
+        return false;
     });
-
-    /*
-    * inserindo uma mensagem simples no final da lista (o mesmo vale para os pacientes na fila de espera)
-    * let mensagens = document.getElementsByTagName("ul")[1];
-    *
-    * let novaMensagem = document.createElement("li");
-    *
-    * novaMensagem.className = "list-group-item";
-    *
-    * let content = document.createTextNode("TESTE 3");
-    *
-    * novaMensagem.appendChild(content);
-    *
-    * mensagens.appendChild(novaMensagem);
-    *
-    * mensagens.scrollIntoView(false);
-    *
-    * mensagens.childElementCount; (me retorna o total de mensagens que já estão em tela)
-    *
-    *
-    * O envio do imput deve ser por rest também
-    *
-    * */
 </script>
 
 </body>

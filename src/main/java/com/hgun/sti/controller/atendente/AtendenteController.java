@@ -1,16 +1,15 @@
 package com.hgun.sti.controller.atendente;
 
 import com.hgun.sti.components.singletons.ChatSingleton;
+import com.hgun.sti.components.singletons.FilaDeEsperaSingleton;
 import com.hgun.sti.components.singletons.SistemaForaDoArSingleton;
 import com.hgun.sti.models.Mensagem;
 import com.hgun.sti.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -27,23 +26,21 @@ public class AtendenteController {
     public String atendenteChatPage(Model model){
         var sistemaForaDoAr = SistemaForaDoArSingleton.getInstance();
 
+        if(model.getAttribute("pacienteNome") == null){
+            model.addAttribute("pacienteNome", " ");
+        }
+
         model.addAttribute("sistemaForaDoAr", sistemaForaDoAr.sistemaForaDoAr);
-        model.addAttribute("mensagem", new Mensagem());
 
         return "chat-atendente.html";
     }
 
-    @GetMapping("/sistemaForaDoAr")
-    public String form(){
-        var sistemaForaDoAr = SistemaForaDoArSingleton.getInstance();
+    @RequestMapping(value = "/getPaciente", method = RequestMethod.GET)
+    public String getPacienteDaFilaDeEspera(HttpServletRequest request, Model model, @ModelAttribute Mensagem mensagem, RedirectAttributes redirectAttributes){
+        var chat = ChatSingleton.getInstance();
+        var filaDeEspera = FilaDeEsperaSingleton.getInstance();
 
-        sistemaForaDoAr.alterarSistemaForaDoAr();
-
-        return "redirect:/atendente";
-    }
-
-    @PostMapping("/sendMessage")
-    public String getMensagem(@ModelAttribute Mensagem mensagem, HttpServletRequest request){
+        filaDeEspera.filaDeEspera.get(0).setEmAtendimento(true);
 
         var usuario = this.usuarioRepository.findById(
                 Long.parseLong(
@@ -51,9 +48,21 @@ public class AtendenteController {
                 )
         ).get();
 
-        var chat = ChatSingleton.getInstance();
+        chat.setMensagemFuncionario(usuario, "", false);
+        redirectAttributes.addFlashAttribute("pacienteNome", filaDeEspera.filaDeEspera.get(0).getPaciente().getNome());
 
-        chat.setMensagemFuncionario(usuario, mensagem, true);
+        return "redirect:/atendente";
+    }
+
+    @RequestMapping(value = "/finalizarChat", method = RequestMethod.GET)
+    public String finalizarChat(){
+        var chat = ChatSingleton.getInstance();
+        var filaDeEspera = FilaDeEsperaSingleton.getInstance();
+
+        filaDeEspera.filaDeEspera.remove(0);
+        chat.clearChat();
+
+        //salvar todos os dados no sistema
 
         return "redirect:/atendente";
     }

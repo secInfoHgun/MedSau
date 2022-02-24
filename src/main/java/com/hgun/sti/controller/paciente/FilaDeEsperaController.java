@@ -23,6 +23,10 @@ public class FilaDeEsperaController {
         var paciente = (Paciente)session.getAttribute("paciente");
         var sistemaForaDoAr = SistemaForaDoArSingleton.getInstance();
 
+        if(paciente == null){
+            return "redirect:/";
+        }
+
         int posicaoNaFila = 0;
 
         for (var noFila: filaDeEspera.filaDeEspera) {

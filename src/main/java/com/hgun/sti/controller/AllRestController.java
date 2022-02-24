@@ -2,15 +2,14 @@ package com.hgun.sti.controller;
 
 import com.hgun.sti.components.singletons.ChatSingleton;
 import com.hgun.sti.components.singletons.FilaDeEsperaSingleton;
+import com.hgun.sti.components.singletons.SistemaForaDoArSingleton;
 import com.hgun.sti.models.FilaDeEspera;
 import com.hgun.sti.models.Mensagem;
 import com.hgun.sti.models.Paciente;
+import com.hgun.sti.repository.TipoEspecialidadeRepository;
 import com.hgun.sti.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -24,6 +23,9 @@ public class AllRestController {
     @Autowired
     public UsuarioRepository usuarioRepository;
 
+    @Autowired
+    public TipoEspecialidadeRepository tipoEspecialidadeRepository;
+
     @RequestMapping(value = "/getFila", method = RequestMethod.GET)
     public List<FilaDeEspera> getFila() {
         var filaDeEspera = FilaDeEsperaSingleton.getInstance();
@@ -36,8 +38,8 @@ public class AllRestController {
         return chat.mensagems;
     }
 
-    @RequestMapping(value = "/sendMensagem", method = RequestMethod.POST)
-    public void sendMensagem(@RequestBody String conteudo, @RequestBody Boolean isPaciente, HttpServletRequest request) {
+    @RequestMapping(value = "/postMessage/{message}/{isPaciente}",  method = RequestMethod.GET)
+    public boolean sendMensagem(@PathVariable(name = "message") String message, @PathVariable(name = "isPaciente") boolean isPaciente, HttpServletRequest request) {
 
         var chat = ChatSingleton.getInstance();
 
@@ -45,8 +47,9 @@ public class AllRestController {
             HttpSession session = request.getSession();
             var paciente = (Paciente)session.getAttribute("paciente");
 
-            System.out.println(conteudo);
-//            chat.setMensagemPaciente(paciente, mensagem, true);
+            var tipoEspecialidade = tipoEspecialidadeRepository.findById(paciente.getTipoEspecialidade().getId()).get();
+
+            chat.setMensagemPaciente(paciente, message, true, tipoEspecialidade);
         }else{
             var usuario = this.usuarioRepository.findById(
                     Long.parseLong(
@@ -54,11 +57,15 @@ public class AllRestController {
                     )
             ).get();
 
-            System.out.println(conteudo);
-//            chat.setMensagemFuncionario(usuario, mensagem, true);
+            chat.setMensagemFuncionario(usuario, message, true);
         }
+        return true;
     }
 
-//    @RequestMapping(value = "/getPosicaoNaFila", method = RequestMethod.GET)
-//    public int getPosicaoNaFila(@RequestBody Paciente paciente) { return 0; }
+    @RequestMapping(value = "/setSistemaForaDoAr", method = RequestMethod.GET)
+    public void setSistemaAtivo() {
+        var sistemaForaDoAr = SistemaForaDoArSingleton.getInstance();
+        sistemaForaDoAr.alterarSistemaForaDoAr();
+    }
+
 }

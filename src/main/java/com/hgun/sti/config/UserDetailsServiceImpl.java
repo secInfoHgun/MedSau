@@ -2,7 +2,6 @@ package com.hgun.sti.config;
 
 import com.hgun.sti.models.Usuario;
 import com.hgun.sti.repository.UsuarioRepository;
-import com.hgun.sti.config.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

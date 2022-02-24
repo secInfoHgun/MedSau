@@ -27,12 +27,8 @@
 
 
     <div class="main-panel" style="background-color: #F8F9FAFF;">
-        <!-- Navbar -->
         <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
             <div class="container-fluid">
-<!--                <div class="navbar-wrapper">-->
-<!--                    <a class="navbar-brand">Ocorrência</a>-->
-<!--                </div>-->
                 <div class="collapse navbar-collapse justify-content-end" id="navigation">
 
                     <div class="nav-item btn-rotate dropdown">
@@ -71,7 +67,6 @@
             </div>
         </nav>
 
-        <!-- End Navbar -->
         <div class="content">
 
             <div class="row">
@@ -83,14 +78,14 @@
                     <nav class="navbar navbar-expand-lg" style="margin-bottom: 0px; border-bottom: 2px solid #E3E3E3;background-color: white">
                         <div class="container-fluid">
                             <div class="navbar-wrapper">
-                                <a class="navbar-brand" style="color: black">Claudia da silva</a>
+                                <a class="navbar-brand" style="color: black" th:text="${pacienteNome}"></a>
                             </div>
-                            <div class="collapse navbar-collapse justify-content-end">
+                            <a th:href="@{/atendente/finalizarChat}" class="collapse navbar-collapse justify-content-end">
 
                                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="red" class="bi bi-x-square-fill" viewBox="0 0 16 16">
                                     <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm3.354 4.646L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 1 1 .708-.708z"/>
                                 </svg>
-                            </div>
+                            </a>
                         </div>
                     </nav>
 
@@ -104,7 +99,7 @@
 
                     <form id="formMensagem"  method="post">
                         <div class="input-group mb-3">
-                            <input style="height: 40px" type="text" class="form-control" placeholder="Escreva aqui" name="conteudo" aria-describedby="basic-addon2">
+                            <input style="height: 40px" type="text" autocomplete="off" class="form-control" placeholder="Escreva aqui" id="message" name="message" aria-describedby="basic-addon2">
                             <div class="input-group-append">
                                 <button class="btn btn-primary my-2 my-sm-0" style="height: 40px; margin-top: 0px" type="submit">Enviar</button>
                             </div>
@@ -132,7 +127,7 @@
 
     function ativar(){
         $.ajax({
-            url : baseurl+"/atendente/sistemaForaDoAr",
+            url : baseurl+"/setSistemaForaDoAr",
             type : 'get',
 
             success: function (response){
@@ -178,6 +173,7 @@
         a.appendChild(svg);
         a.appendChild(document.createTextNode(paciente.nome));
         a.appendChild(hr);
+        a.href = "atendente/getPaciente"
 
         li.appendChild(a);
 
@@ -264,15 +260,15 @@
 
     $('#formMensagem').submit(function(e) {
         e.preventDefault();
-        let conteudo = $('input[name="mensagem"]').val();
+
+        let message = document.getElementById("message");
         let isPaciente = false;
 
         $.ajax({
-            type: 'POST',
-            url: baseurl+"/sendMensagem",
-            data: {conteudo: conteudo, isPaciente: isPaciente},
+            type: 'GET',
+            url: baseurl+"/postMessage/"+message.value+"/"+isPaciente,
             success: function(response) {
-                console.log(response);
+                message.value = "";
             },
             error: function(xhr, status, error) {
                 console.log(xhr.responseText);
