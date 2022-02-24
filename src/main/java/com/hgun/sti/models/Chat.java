@@ -28,12 +28,4 @@ public class Chat {
 
     @OneToOne
     public Paciente paciente;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "chat_mensagens",
-            joinColumns = @JoinColumn(name = "chat_id"),
-            inverseJoinColumns = @JoinColumn(name = "mensagens_id")
-    )
-    public Set<Mensagem> mensagens;
 }

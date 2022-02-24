@@ -24,6 +24,7 @@ public class ChatSingleton {
 
     public void clearChat(){
         this.mensagems = new ArrayList<Mensagem>();
+        this.chat = new Chat();
     }
 
     private String getHoraAtual(){

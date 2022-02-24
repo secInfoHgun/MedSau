@@ -16,6 +16,7 @@ public class Mensagem {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
+    public Long idChat;
 
     public String remetente;
     public String hora;

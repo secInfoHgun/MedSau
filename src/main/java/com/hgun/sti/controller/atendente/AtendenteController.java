@@ -4,6 +4,9 @@ import com.hgun.sti.components.singletons.ChatSingleton;
 import com.hgun.sti.components.singletons.FilaDeEsperaSingleton;
 import com.hgun.sti.components.singletons.SistemaForaDoArSingleton;
 import com.hgun.sti.models.Mensagem;
+import com.hgun.sti.repository.ChatRepository;
+import com.hgun.sti.repository.MensagemRepository;
+import com.hgun.sti.repository.PacienteRepository;
 import com.hgun.sti.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +16,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.Set;
+
 import static com.hgun.sti.components.GetCookie.getCookie;
 
 @Controller
@@ -21,6 +28,15 @@ public class AtendenteController {
 
     @Autowired
     public UsuarioRepository usuarioRepository;
+
+    @Autowired
+    public ChatRepository chatRepository;
+
+    @Autowired
+    public MensagemRepository mensagemRepository;
+
+    @Autowired
+    public PacienteRepository pacienteRepository;
 
     @GetMapping
     public String atendenteChatPage(Model model){
@@ -48,7 +64,12 @@ public class AtendenteController {
                 )
         ).get();
 
+        chat.chat.inicio =  new Date();
+        chat.chat.funcionario = usuario;
+        chat.chat.paciente = filaDeEspera.filaDeEspera.get(0).getPaciente();
+
         chat.setMensagemFuncionario(usuario, "", false);
+
         redirectAttributes.addFlashAttribute("pacienteNome", filaDeEspera.filaDeEspera.get(0).getPaciente().getNome());
 
         return "redirect:/atendente";
@@ -59,13 +80,23 @@ public class AtendenteController {
         var chat = ChatSingleton.getInstance();
         var filaDeEspera = FilaDeEsperaSingleton.getInstance();
 
+        if(chat.mensagems.size() > 1){
+            chat.chat.fim = new Date();
+            var auxPaciente = pacienteRepository.save(chat.chat.paciente);
+            chat.chat.paciente = auxPaciente;
+            var auxChat = chatRepository.save(chat.chat);
+
+            for (var mensagem : chat.mensagems) {
+                mensagem.idChat = auxChat.id;
+                mensagemRepository.save(mensagem);
+            }
+        }
+
         if(filaDeEspera.filaDeEspera.size() != 0){
             filaDeEspera.filaDeEspera.remove(0);
         }
 
         chat.clearChat();
-
-        //salvar todos os dados no sistema
 
         return "redirect:/atendente";
     }
