@@ -52,7 +52,7 @@ public class AtendenteController {
     }
 
     @RequestMapping(value = "/getPaciente", method = RequestMethod.GET)
-    public String getPacienteDaFilaDeEspera(HttpServletRequest request, @ModelAttribute Mensagem mensagem, RedirectAttributes redirectAttributes){
+    public String getPacienteDaFilaDeEspera(HttpServletRequest request, RedirectAttributes redirectAttributes){
         var chat = ChatSingleton.getInstance();
         var filaDeEspera = FilaDeEsperaSingleton.getInstance();
 

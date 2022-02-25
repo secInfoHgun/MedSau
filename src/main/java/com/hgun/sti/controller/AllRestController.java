@@ -6,6 +6,7 @@ import com.hgun.sti.components.singletons.SistemaForaDoArSingleton;
 import com.hgun.sti.models.FilaDeEspera;
 import com.hgun.sti.models.Mensagem;
 import com.hgun.sti.models.Paciente;
+import com.hgun.sti.repository.MensagemRepository;
 import com.hgun.sti.repository.TipoEspecialidadeRepository;
 import com.hgun.sti.repository.UsuarioRepository;
 import lombok.AllArgsConstructor;
@@ -29,6 +30,9 @@ public class AllRestController {
     @Autowired
     public TipoEspecialidadeRepository tipoEspecialidadeRepository;
 
+    @Autowired
+    public MensagemRepository mensagemRepository;
+
     @RequestMapping(value = "/getFila", method = RequestMethod.GET)
     public List<FilaDeEspera> getFila() {
         var filaDeEspera = FilaDeEsperaSingleton.getInstance();
@@ -39,6 +43,12 @@ public class AllRestController {
     public List<Mensagem> getChat() {
         var chat = ChatSingleton.getInstance();
         return chat.mensagems;
+    }
+
+    @RequestMapping(value = "/getChat/{id}", method = RequestMethod.GET)
+    public List<Mensagem> getChatById(@PathVariable(name = "id") Long id) {
+        var mensagens = mensagemRepository.getMensagensByChatId(id);
+        return mensagens;
     }
 
     @RequestMapping(value = "/postMessage",  method = RequestMethod.GET)

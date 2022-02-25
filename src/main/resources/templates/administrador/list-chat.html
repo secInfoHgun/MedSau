@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="fragments/head :: head('MedSau - Dashboard')"></div>
+
+<body style="background-color: #F8F9FAFF; overflow: hidden;">
+
+<div class="wrapper ">
+
+    <div th:replace="fragments/fragmentMenu/menu :: menu(4)"></div>
+
+    <div class="main-panel" style="background-color: #F8F9FAFF;">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+            <div class="container-fluid">
+                <div class="navbar-wrapper">
+                    <a class="navbar-brand" href="javascript:;">Chats</a>
+                </div>
+                <div class="collapse navbar-collapse justify-content-end" id="navigation">
+                    <form method="post" th:action="@{/administrador/chat/filter}" th:object="${paciente}">
+                        <div class="input-group no-border" style="width: 200px">
+                            <input type="text" th:field="*{preccp}" class="form-control" placeholder="PRECCP do paciente">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <i class="nc-icon nc-zoom-split"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </nav>
+
+        <!-- End Navbar -->
+        <div class="content">
+
+            <main th:class="${chats.size() == 0 ? 'content text-center' : 'content' }" style="margin-left: auto; margin-right: auto; margin-top: 100px; width: 900px;">
+                <div th:each="chat : ${chats}" class="card card-user position-relative " style="margin-top: 20px; width: 900px; height: 103px;">
+                    <div class="align-middle" style="padding: 40px">
+                        <div class="row ">
+                            <div class="col-md-11 pl-1">
+                                <b class="fw-bold" style="margin: auto" th:text="${chat.paciente.nome}"></b>
+                            </div>
+                            <div class="col-md-1 pl-1 align-items-center">
+                                <a th:href="@{'/administrador/chat/view/' + ${chat.id}}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                        <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                                        <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h3 th:if="${paciente.preccp == null}">
+                    Para visualizar os chats, insira o PRECCP!
+                </h3>
+                <h3 th:if="${chats.size() == 0 && paciente.preccp != null}">
+                    Não há chats registrados!
+                </h3>
+            </main>
+        </div>
+
+
+    </div>
+</div>
+
+<div th:replace="fragments/imports :: imports"></div>
+
+</body>
+</html>
