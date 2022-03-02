@@ -10,6 +10,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ChatRepository  extends JpaRepository<Chat, Long>{
-    @Query("SELECT c FROM Chat c WHERE c.paciente.preccp = :preccp order by c.inicio asc")
+    @Query("SELECT c FROM Chat c WHERE c.paciente.preccp = :preccp order by c.fim desc")
     List<Chat> getChatByPreccpAndData(@Param("preccp") String preccp);
 }

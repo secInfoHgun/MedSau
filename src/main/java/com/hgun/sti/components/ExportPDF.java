@@ -20,14 +20,14 @@ public class ExportPDF {
     private static final int fontSizeMin = 10;
 
     private Chat chat;
-    private List<Mensagem> mensagem;
+    private List<Mensagem> mensagens;
 
     public ExportPDF(
             Chat chat,
-            List<Mensagem> mensagem
+            List<Mensagem> mensagens
     ) {
         this.chat = chat;
-        this.mensagem = mensagem;
+        this.mensagens = mensagens;
     }
 
     private String formataNumeroNotificacao(Long id){
@@ -111,39 +111,44 @@ public class ExportPDF {
         document.add(getParagrafoNovo(" ", semIdentacao, false, false, false));
         document.add(getParagrafoNovo(" ", semIdentacao, false, false, false));
 
+        document.add(getParagrafoNovo("Chat de atendimento Nº : " + formataNumeroNotificacao(this.chat.id), semIdentacao, false, true, false));
 
-//        document.add(getParagrafoNovo("Notificação  de Incidente / Notificação  de Evento Adverso                                               Nº da notificação : " + formataNumeroNotificacao(this.ocorrencia.id), semIdentacao, false, true, false));
-//
-//        document.add(getParagrafoNovo("Data / Hora do Evento: " + this.ocorrencia.dataDaOcorrencia + " - " + this.ocorrencia.horaDaOcorrencia, semIdentacao, false, false, true));
+        document.add(getParagrafoNovo("Data de inicio : " + this.chat.inicio, semIdentacao, false, true, false));
+        document.add(getParagrafoNovo("Data de fim : " + this.chat.fim, semIdentacao, false, true, false));
+
+        return document;
+    }
+
+    public Document mensagensDoChat(Document document){
+
+        document.add(getParagrafoNovo("\n\nMensagens do chat:", semIdentacao, false, true, false));
+
+        for (var mensagem : this.mensagens) {
+            document.add(getParagrafoNovo("Remetente / Hora :", identacao1, false, false, false));
+            document.add(getParagrafoNovo(mensagem.remetente + "   /   "+ mensagem.hora, identacao2, false, false, false));
+            document.add(getParagrafoNovo("Conteúdo :", identacao1, false, false, false));
+            document.add(getParagrafoNovo(mensagem.conteudo , identacao2, false, false, false));
+            document.add(getParagrafoNovo(" ", semIdentacao, false, false, false));
+        }
 
         return document;
     }
 
     public Document footerDocument(Document document){
 
-        // ver como vai funcionar o layout
+        document.add(getParagrafoNovo(" ", semIdentacao, false, false, false));
+        document.add(getParagrafoNovo(" ", semIdentacao, false, false, false));
 
-//        document.add(getParagrafoNovo(" ", semIdentacao, false, false, false));
-//        document.add(getParagrafoNovo(" ", semIdentacao, false, false, false));
-//
-//        document.add(getParagrafoNovo("Equipe de análise do incidente / evento adverso:", semIdentacao, false, false, false));
-//        document.add(getParagrafoNovo("Assinatura / Carimbo", semIdentacao, false, false, false));
-//
-//        document.add(getParagrafoNovo(" ", semIdentacao, false, false, false));
-//        document.add(getParagrafoNovo(" ", semIdentacao, false, false, false));
-//        document.add(getParagrafoNovo("_____________________________________________________________", semIdentacao, true, true, false));
-//
-//        document.add(getParagrafoNovo(" ", semIdentacao, false, false, false));
-//        document.add(getParagrafoNovo(" ", semIdentacao, false, false, false));
-//        document.add(getParagrafoNovo("_____________________________________________________________", semIdentacao, true, true, false));
-//
-//        document.add(getParagrafoNovo(" ", semIdentacao, false, false, false));
-//        document.add(getParagrafoNovo(" ", semIdentacao, false, false, false));
-//        document.add(getParagrafoNovo("_____________________________________________________________", semIdentacao, true, true, false));
-//
-//        document.add(getParagrafoNovo(" ", semIdentacao, false, false, false));
-//
-//        document.add(getParagrafoNovo(getDataFormatada(), semIdentacao, true, false, false));
+        document.add(getParagrafoNovo("Chefe do SAME", semIdentacao, true, true, false));
+        document.add(getParagrafoNovo("Assinatura / Carimbo", semIdentacao, true, true, false));
+
+        document.add(getParagrafoNovo(" ", semIdentacao, false, false, false));
+        document.add(getParagrafoNovo(" ", semIdentacao, false, false, false));
+        document.add(getParagrafoNovo(" ", semIdentacao, false, false, false));
+        document.add(getParagrafoNovo(" ", semIdentacao, false, false, false));
+        document.add(getParagrafoNovo("_____________________________________________________________", semIdentacao, true, true, false));
+
+        document.add(getParagrafoNovo(getDataFormatada(), semIdentacao, true, false, false));
 
         return document;
     }
@@ -156,6 +161,7 @@ public class ExportPDF {
 
         document = headerDocument(document);
 
+        document = mensagensDoChat(document);
 
         document = footerDocument(document);
 

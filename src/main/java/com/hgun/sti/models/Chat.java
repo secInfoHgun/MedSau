@@ -5,7 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -28,4 +30,12 @@ public class Chat {
 
     @OneToOne
     public Paciente paciente;
+
+    public String getDataFimFormatada(){
+        var pattern = "dd / MM / yyyy";
+        var simpleDateFormat = new SimpleDateFormat(pattern, new Locale("pt","BR"));
+        var date = simpleDateFormat.format(this.fim);
+
+        return date;
+    }
 }

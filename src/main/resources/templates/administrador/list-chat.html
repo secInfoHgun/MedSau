@@ -39,8 +39,11 @@
                 <div th:each="chat : ${chats}" class="card card-user position-relative " style="margin-top: 20px; width: 900px; height: 103px;">
                     <div class="align-middle" style="padding: 40px">
                         <div class="row ">
-                            <div class="col-md-11 pl-1">
-                                <b class="fw-bold" style="margin: auto" th:text="${chat.paciente.nome}"></b>
+                            <div class="col-md-8 pl-1" style="margin-top: 4px">
+                                <h6 class="fw-bold" style="margin-left: 25px; margin-top: 4px" th:text="${chat.paciente.nome}"></h6>
+                            </div>
+                            <div class="col-md-3 pl-1" style="margin-top: 4px">
+                                <b class="fw-bold" th:text="${chat.getDataFimFormatada()}" ></b>
                             </div>
                             <div class="col-md-1 pl-1 align-items-center">
                                 <a th:href="@{'/administrador/chat/view/' + ${chat.id}}">
