@@ -64,7 +64,7 @@ public class AllRestController {
 
             var tipoEspecialidade = tipoEspecialidadeRepository.findById(paciente.getTipoEspecialidade().getId()).get();
 
-            chat.setMensagemPaciente(paciente, message, true, tipoEspecialidade);
+            chat.setMensagemPaciente(paciente, message);
         }else{
             var usuario = this.usuarioRepository.findById(
                     Long.parseLong(
@@ -72,16 +72,28 @@ public class AllRestController {
                     )
             ).get();
 
-            chat.setMensagemFuncionario(usuario, message, true);
+            chat.setMensagemFuncionario(usuario, message);
         }
         return true;
     }
 
-
     @RequestMapping(value = "/setSistemaForaDoAr", method = RequestMethod.GET)
-    public void setSistemaAtivo() {
+    public Boolean setSistemaAtivo() {
         var sistemaForaDoAr = SistemaForaDoArSingleton.getInstance();
         sistemaForaDoAr.alterarSistemaForaDoAr();
+
+        return sistemaForaDoAr.sistemaForaDoAr;
+    }
+
+    @RequestMapping(value = "/alterarStatusEspedicalidade/{id}", method = RequestMethod.GET)
+    public Boolean alterarStatus(@PathVariable(name = "id") Long id) {
+        var tipoEspecialidade = tipoEspecialidadeRepository.findById(id).get();
+
+        tipoEspecialidade.setAtiva(!tipoEspecialidade.ativa);
+
+        tipoEspecialidadeRepository.save(tipoEspecialidade);
+
+        return tipoEspecialidade.ativa;
     }
 
 }

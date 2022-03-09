@@ -105,22 +105,34 @@
 <div th:replace="fragments/imports :: imports"></div>
 
 <script>
+    const baseurl = window.location.origin;
+
     function ativar(id){
-        const baseurl = window.location.origin;
+
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: false,
+        })
+
         $.ajax({
-            url : baseurl+"/administrador/especialidade/alterar/"+id,
+            url : baseurl+"/alterarStatusEspedicalidade/"+id,
             type : 'get',
 
-            success: function (response){
-                window.location.reload();
+            success: function (data){
+                Toast.fire({
+                    icon: 'success',
+                    title: 'A especialidade foi ' + (data ? 'ativada' : 'desativada') +' com sucesso'
+                })
             },
 
             error: function (xhr, textStatus, error){
                 console.log(xhr)
-                Swal.fire({
+                Toast.fire({
                     icon: 'error',
-                    title: 'Ooops...',
-                    text: 'Houve um problema interno e a especialidade não pôde ser desativada',
+                    title: 'Houve um problema interno ao realizar esta ação'
                 })
             }
         })

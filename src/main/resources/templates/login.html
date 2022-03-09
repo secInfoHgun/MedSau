@@ -19,9 +19,6 @@
                         </div>
 
                         <form method="post"  th:action="@{/login}" >
-
-                            <p style="color: red" th:if="${param.error}" >Credenciais inválidas!</p>
-
                             <div class="row" style="margin-bottom: 15px">
                                 <div class="col-md-12 pl-1">
                                     <div class="form-group">
@@ -53,5 +50,19 @@
         </main>
 
         <div th:replace="fragments/imports :: imports"></div>
+
+        <script th:inline="javascript">
+            var error = [[${param.error}]]
+            if(error != null){
+                Swal.fire({
+                    icon: 'error',
+                    title: ' ',
+                    text: 'Credenciais inválidas!',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
+
+        </script>
     </body>
 </html>

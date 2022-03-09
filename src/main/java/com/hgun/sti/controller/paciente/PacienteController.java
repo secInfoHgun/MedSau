@@ -46,7 +46,12 @@ public class PacienteController {
 
         var tipoEspecialidade = tipoEspecialidadeRepository.findById(paciente.getTipoEspecialidade().getId()).get();
 
-        chat.setMensagemPaciente(paciente, "", false, tipoEspecialidade);
+        var mensagemInicial =  "Nome:    " + paciente.getNome() + "\nIdade:    " + paciente.getIdade() +
+                               "\nSexo:    " + (paciente.getSexo().equals('M') ? "Masculino" : "Feminino") +
+                               "\nTelefone:    " + paciente.getTelefone() + "\nPRECCP:    " + paciente.getPreccp() +
+                               "\nProntuário:    " + paciente.getProntuario() + "\nEspecialidade médica:    " + tipoEspecialidade.getNome() + (tipoEspecialidade.getDescricao() != "" ? "  (" + tipoEspecialidade.getDescricao() + ")" : "");
+
+        chat.setMensagemPaciente(paciente, mensagemInicial);
 
         return "chat-paciente.html";
     }

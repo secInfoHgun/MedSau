@@ -81,10 +81,11 @@
                 <div class="col col-lg-7 pl-4">
                     <img th:src="@{/img/imagemTeleconsulta.png}" alt="Teleatendimento" id="teleconsulta"/>
                 </div>
+
                 <div class="col col-lg  pl-4 text-center">
                     <h3 class="text-primary align-self-center">Sua vez está chegando</h3>
 
-                    <p class="align-self-center">Você está numa sala de espera virtual e será rapidamente atendido, aguarde. A númeração abaixo é sua posição na fila.</p>
+                    <p class="align-self-center">Você está numa sala de espera virtual e será rapidamente atendido. A númeração abaixo é sua posição na fila. Por favor aguarde na página.</p>
 
                     <div class="container align-self-center" id="indicadorNaFila">
                         <div class="row align-self-center">
@@ -111,6 +112,7 @@
                 title: 'Sistema temporariamente fora do ar',
                 text: 'Caso queira aguardar na fila de espera, basta apenas ignorar essa mensagem.',
                 showConfirmButton: false,
+                showCloseButton: true
             })
         }
     </script>

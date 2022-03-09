@@ -26,7 +26,7 @@
 
         <main class="container">
             <div class="row" style="margin-top: 100px">
-                <div class="col-lg-7 px-6">
+                <div class="col-lg-7 px-6" id="imagemTeleatendimento">
                     <img th:src="@{/img/imagemTeleconsulta.png}"  alt="Imagem Teleconsulta HGuN"/>
                 </div>
                 <div class="col-lg-5">
@@ -67,7 +67,7 @@
                                 <div class="row" style="margin-bottom: 20px">
                                     <div class="col-md-8 pl-1">
                                         <div class="form-group">
-                                            <label style="color: #2a2b2d">PRECCP  <b style="color: red">*</b></label>
+                                            <label style="color: #2a2b2d">PREC-CP  <b style="color: red">*</b></label>
                                             <input type="text" th:class="${'form-control'}" th:field="*{preccp}">
                                         </div>
                                     </div>
@@ -142,6 +142,7 @@
                     title: 'Sistema temporariamente fora do ar',
                     text: 'Caso queira aguardar na fila de espera, basta apenas ignorar esta mensagem.',
                     showConfirmButton: false,
+                    showCloseButton: true
                 })
             }
 

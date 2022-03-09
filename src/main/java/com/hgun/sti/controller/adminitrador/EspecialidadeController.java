@@ -33,15 +33,4 @@ public class EspecialidadeController {
 
         return "redirect:/administrador/especialidade";
     }
-
-    @GetMapping("/alterar/{id}")
-    public String alterarStatus(@PathVariable(name = "id") Long id) {
-        var tipoEspecialidade = tipoEspecialidadeRepository.findById(id).get();
-
-        tipoEspecialidade.setAtiva(!tipoEspecialidade.ativa);
-
-        tipoEspecialidadeRepository.save(tipoEspecialidade);
-
-        return "redirect:/administrador/especialidade";
-    }
 }

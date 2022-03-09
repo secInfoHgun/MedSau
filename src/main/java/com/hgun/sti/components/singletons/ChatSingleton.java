@@ -51,39 +51,23 @@ public class ChatSingleton {
        return  horaFormatada;
     }
 
-    public void setMensagemFuncionario(Usuario usuario,String conteudo, Boolean veioDoForm){
+    public void setMensagemFuncionario(Usuario usuario,String conteudo){
 
         var mensagem = new Mensagem();
         mensagem.setRemetente(usuario.getLogin());
         mensagem.setConteudo(conteudo);
         mensagem.setHora(getHoraAtual());
 
-        if(!veioDoForm){
-            mensagem.setConteudo("Bem-vindo ao sistema de teleatendimento do Hospital De Guarnição De Natal.\nEstamos dando continuidade ao seu atendimento.");
-        }
-
         this.mensagems.add(mensagem);
     }
 
-    public void setMensagemPaciente(Paciente paciente, String conteudo, Boolean veioDoForm, TipoEspecialidade tipoEspecialidade){
+    public void setMensagemPaciente(Paciente paciente, String conteudo){
 
         var mensagem = new Mensagem();
 
         mensagem.setRemetente(paciente.getNome());
         mensagem.setConteudo(conteudo);
         mensagem.setHora(getHoraAtual());
-
-        if(!veioDoForm){
-            mensagem.setConteudo(
-                    "Nome: " + paciente.getNome() +
-                    "\nIdade: " + paciente.getIdade() +
-                    "\nSexo: " + (paciente.getSexo().equals('M') ? "Masculino" : "Feminino") +
-                    "\nTelefone: " + paciente.getTelefone() +
-                    "\nPRECCP: " + paciente.getPreccp() +
-                    "\nProntuário: " + paciente.getProntuario() +
-                    "\nEspecialidade médica: " + tipoEspecialidade.getNome()
-            );
-        }
 
         this.mensagems.add(mensagem);
     }

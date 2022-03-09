@@ -92,13 +92,16 @@
 
         div.appendChild(strong);
 
-        li.appendChild(div);
+        let dadosConteudo = mensagem.conteudo.split("\n");
+        dadosConteudo.forEach( conteudo => {
+            let p = document.createElement("p");
+            p.className = "mb-0";
+            p.style = "margin-bottom: 3px";
 
-        p.className = "mb-0";
-        p.style = "margin-bottom: 3px";
-        p.appendChild(document.createTextNode(mensagem.conteudo));
+            p.appendChild(document.createTextNode(conteudo));
 
-        li.appendChild(p);
+            li.appendChild(p);
+        })
 
         return li;
     }

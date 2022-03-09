@@ -68,7 +68,7 @@ public class AtendenteController {
         chat.chat.funcionario = usuario;
         chat.chat.paciente = filaDeEspera.filaDeEspera.get(0).getPaciente();
 
-        chat.setMensagemFuncionario(usuario, "", false);
+        chat.setMensagemFuncionario(usuario, "Bem-vindo ao sistema de teleatendimento do Hospital De Guarnição De Natal.\nEstamos dando continuidade ao seu atendimento.");
 
         redirectAttributes.addFlashAttribute("pacienteNome", filaDeEspera.filaDeEspera.get(0).getPaciente().getNome());
 
